@@ -7,7 +7,10 @@ namespace battlefrogs {
 
     class Player : public Entity {
     public:
+        static const int STARTING_X = 6470;
         Player();
+
+
     };
 
 }

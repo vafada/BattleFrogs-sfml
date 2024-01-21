@@ -7,7 +7,6 @@ namespace battlefrogs {
     }
 
     void Entity::setTexture(const std::string& imagePath, int width, int height) {
-        std::cout << imagePath << std::endl;
         if (!texture.loadFromFile(imagePath))
         {
             std::cerr << "Error loading: " << imagePath << std::endl;
@@ -19,5 +18,14 @@ namespace battlefrogs {
 
     sf::Sprite Entity::getSprite() {
         return sprite;
+    }
+
+    void Entity::setPosition(float x, float y) {
+        position = sf::Vector2f(x, y);
+        sprite.setPosition(position);
+    }
+
+    sf::Vector2f Entity::getPosition() {
+        return position;
     }
 }

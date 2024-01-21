@@ -11,11 +11,14 @@ namespace battlefrogs {
     public:
         Entity();
         void setTexture(const std::string& imagePath, int width, int height);
+        void setPosition(float x, float y);
         sf::Sprite getSprite();
+        sf::Vector2f getPosition();
 
     protected:
         sf::Texture texture;
         sf::Sprite sprite;
+        sf::Vector2f position;
     };
 
 }
