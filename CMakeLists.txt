@@ -10,7 +10,13 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(BattleFrogs-SFML src/main.cpp)
+add_executable(BattleFrogs-SFML src/main.cpp
+        src/BattleFrogs.cpp
+        src/BattleFrogs.h
+        src/Player.cpp
+        src/Player.h
+        src/Entity.cpp
+        src/Entity.h)
 target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics)
 target_compile_features(BattleFrogs-SFML PRIVATE cxx_std_17)
 
@@ -23,3 +29,5 @@ if(WIN32)
 endif()
 
 install(TARGETS BattleFrogs-SFML)
+
+file(COPY graphics DESTINATION ${CMAKE_BINARY_DIR}/bin)

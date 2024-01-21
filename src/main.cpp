@@ -1,9 +1,14 @@
 #include <SFML/Graphics.hpp>
+#include "BattleFrogs.h"
 
 int main()
 {
-    auto window = sf::RenderWindow{ { 1920u, 1080u }, "CMake SFML Project" };
-    window.setFramerateLimit(144);
+
+    auto window = sf::RenderWindow{ { 1280, 720 }, "BattleFrogs-SFML" };
+    window.setFramerateLimit(60);
+
+    battlefrogs::BattleFrogs battleFrogs(window);
+    battleFrogs.startPlaying();
 
     while (window.isOpen())
     {
@@ -13,9 +18,14 @@ int main()
             {
                 window.close();
             }
+
+
         }
 
         window.clear();
+
+        battleFrogs.draw();
+
         window.display();
     }
 }
