@@ -14,7 +14,7 @@ namespace battlefrogs {
     }
 
     void BattleFrogs::update(sf::Int32 duration) {
-        player.update(duration);
+        player.update(world, duration);
     }
 
     void BattleFrogs::draw(sf::Int32 elapsed) {
@@ -22,6 +22,6 @@ namespace battlefrogs {
 
         renderWindow.setView(camera);
         world.render(renderWindow, camera);
-        renderWindow.draw(player.getSprite(elapsed));
+        player.render(renderWindow, camera, world, elapsed);
     }
 }

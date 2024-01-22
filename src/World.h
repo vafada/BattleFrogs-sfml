@@ -35,6 +35,7 @@ namespace battlefrogs {
         World(sf::Vector2f size);
 
         void render(sf::RenderWindow& renderWindow, sf::View& camera);
+        bool isCollision(sf::RectangleShape& entityHitbox, bool forGravity);
     };
 
 }

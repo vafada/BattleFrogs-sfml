@@ -19,22 +19,6 @@ namespace battlefrogs {
         return hasWeapon ? ANIMATION_TYPE_RUN : ANIMATION_TYPE_WALK;
     }
 
-    sf::Sprite Player::getSprite(sf::Int32 elapsed) {
-        currentFrameTime += elapsed;
-
-        int facingMultiplier = facing == FACING_LEFT ? 1 : -1;
-
-        // std::cout << "player frame total elapsed = " << currentFrameTime << std::endl;
-
-        // https://stackoverflow.com/questions/72783484/how-to-make-player-animation-in-sfml
-        if (currentFrameTime >= ANIMATION_FRAME_RATE[animationType]) {
-            sprite.setTextureRect(sf::IntRect(currentFrame * WIDTH, animationType * HEIGHT, (WIDTH * facingMultiplier), HEIGHT));
-            currentFrameTime -= ANIMATION_FRAME_RATE[animationType];
-            currentFrame = (currentFrame + 1) % ANIMATION_FRAME_COUNT[animationType];
-        }
-        return sprite;
-    }
-
     sf::Vector2f Player::getPosition() {
         return sprite.getPosition();
     }
@@ -43,26 +27,24 @@ namespace battlefrogs {
         return hasWeapon ? 1.95f : 1.35f;
     }
 
-    void Player::update(sf::Int32 duration) {
+    void Player::update(World& world, sf::Int32 duration) {
 
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
             // left key is pressed: move our character
-            std::cout << "In Player.update. Left key pressed" << std::endl;
             velocity.x -= horizontalSpeed * getWalkingSpeed();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
             // left key is pressed: move our character
-            std::cout << "In Player.update. Right key pressed" << std::endl;
             velocity.x += horizontalSpeed * getWalkingSpeed();
         }
 
-        move();
+        move(world);
     }
 
-    void Player::move() {
+    void Player::move(World& world) {
         velocity.x *= friction;
 
         if (abs(velocity.x) < friction) {
@@ -72,9 +54,23 @@ namespace battlefrogs {
         float newX = sprite.getPosition().x + velocity.x;
         float newY = sprite.getPosition().y + velocity.y;
 
-        //std::cout << "newX = " << newX << std::endl;
+        bool collidedHorizontally = false;
+        bool collidedVertically = false;
 
-        sprite.setPosition(newX, newY);
+
+
+        sf::RectangleShape playerBox(sf::Vector2f(WIDTH, HEIGHT));
+        playerBox.setPosition(newX, sprite.getPosition().y);
+
+        if (!world.isCollision(playerBox, false)) {
+            sprite.setPosition(newX, sprite.getPosition().y);
+        } else {
+            velocity.x = 0;
+            collidedHorizontally = true;
+        }
+
+
+
 
         wasMoving = isMoving;
 
@@ -102,5 +98,21 @@ namespace battlefrogs {
     void Player::animationReset() {
         currentFrameTime = 0;
         currentFrame = 0;
+    }
+
+    void Player::render(sf::RenderWindow& renderWindow, sf::View& camera, World& world, sf::Int32 elapsed) {
+        currentFrameTime += elapsed;
+
+        int facingMultiplier = facing == FACING_LEFT ? 1 : -1;
+
+        // std::cout << "player frame total elapsed = " << currentFrameTime << std::endl;
+
+        // https://stackoverflow.com/questions/72783484/how-to-make-player-animation-in-sfml
+        if (currentFrameTime >= ANIMATION_FRAME_RATE[animationType]) {
+            sprite.setTextureRect(sf::IntRect(currentFrame * WIDTH, animationType * HEIGHT, (WIDTH * facingMultiplier), HEIGHT));
+            currentFrameTime -= ANIMATION_FRAME_RATE[animationType];
+            currentFrame = (currentFrame + 1) % ANIMATION_FRAME_COUNT[animationType];
+        }
+        renderWindow.draw(sprite);
     }
 }

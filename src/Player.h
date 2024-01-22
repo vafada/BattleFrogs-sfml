@@ -4,6 +4,9 @@
 #include "SFML/System.hpp"
 #include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Graphics/View.hpp"
+#include "World.h"
 
 namespace battlefrogs {
 
@@ -57,7 +60,7 @@ namespace battlefrogs {
         float horizontalSpeed = 8.0f;
         float friction = 0.35f;
 
-        void move();
+        void move(World& world);
 
         bool isMoving = false;
         bool wasMoving = false;
@@ -71,9 +74,9 @@ namespace battlefrogs {
         int getWalkingAnimation();
         float getWalkingSpeed();
 
-        sf::Sprite getSprite(sf::Int32 elapsed);
         sf::Vector2f getPosition();
-        void update(sf::Int32 duration);
+        void update(World& world, sf::Int32 duration);
+        void render(sf::RenderWindow& renderWindow, sf::View& camera, World& world, sf::Int32 elapsed);
     };
 
 }

@@ -41,6 +41,30 @@ namespace battlefrogs {
 #endif // DEBUG
     }
 
+    bool World::isCollision(sf::RectangleShape& entityHitbox, bool forGravity) {
+        float entityX1 = entityHitbox.getPosition().x;
+        float entityX2 = entityHitbox.getPosition().x + entityHitbox.getSize().x;
+
+        float entityY1 = entityHitbox.getPosition().y;
+        float entityY2 = entityHitbox.getPosition().y + entityHitbox.getSize().y;
+
+        for (auto& collisionBox : collisions) {
+            if (collisionBox.getSize().y == 0 && !forGravity) {
+                continue;
+            }
+
+            float boxX1 = collisionBox.getPosition().x;
+            float boxX2 = collisionBox.getPosition().x + collisionBox.getSize().x;
+
+            float boxY1 = collisionBox.getPosition().y;
+            float boxY2 = collisionBox.getPosition().y + collisionBox.getSize().y;
+
+            if (entityX1 < boxX2 && entityX2 > boxX1 && entityY1 < boxY2 && entityY2 > boxY1) {
+                return true;
+            }
+        }
+    }
+
     void World::loadCollisions() {
         std::ifstream infile("graphics/collisions.txt");
         if (infile.is_open()) {
