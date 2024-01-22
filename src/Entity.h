@@ -12,10 +12,13 @@ namespace battlefrogs {
         Entity();
         void setTexture(const std::string& imagePath, int width, int height);
         void setPosition(float x, float y);
-        sf::Sprite getSprite();
+        virtual sf::Sprite getSprite(sf::Int32 duration) = 0;
         sf::Vector2f getPosition();
 
     protected:
+        sf::Int32 currentFrameTime = 0;
+        int height;
+        int width;
         sf::Texture texture;
         sf::Sprite sprite;
         sf::Vector2f position;

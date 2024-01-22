@@ -12,12 +12,11 @@ namespace battlefrogs {
             std::cerr << "Error loading: " << imagePath << std::endl;
         }
 
+        this->width = width;
+        this->height = height;
+
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, width, height));
-    }
-
-    sf::Sprite Entity::getSprite() {
-        return sprite;
     }
 
     void Entity::setPosition(float x, float y) {

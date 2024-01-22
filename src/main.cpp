@@ -10,6 +10,8 @@ int main()
     battlefrogs::BattleFrogs battleFrogs(window);
     battleFrogs.startPlaying();
 
+    sf::Clock clock;
+
     while (window.isOpen())
     {
         for (auto event = sf::Event{}; window.pollEvent(event);)
@@ -24,7 +26,9 @@ int main()
 
         window.clear();
 
-        battleFrogs.draw();
+        sf::Time elapsed = clock.restart();
+
+        battleFrogs.draw(elapsed.asMilliseconds());
 
         window.display();
     }

@@ -16,11 +16,11 @@ namespace battlefrogs {
         this->playing = true;
     }
 
-    void BattleFrogs::draw() {
+    void BattleFrogs::draw(sf::Int32 elapsed) {
         camera.setCenter(player.getPosition());
 
         renderWindow.setView(camera);
         renderWindow.draw(world.getSprite(camera.getCenter().x - (camera.getSize().x / 2)));
-        renderWindow.draw(player.getSprite());
+        renderWindow.draw(player.getSprite(elapsed));
     }
 }
