@@ -32,6 +32,6 @@ namespace battlefrogs {
     }
 
     sf::Vector2f Player::getPosition() {
-        return position;
+        return sprite.getPosition();
     }
 }

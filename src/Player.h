@@ -46,7 +46,6 @@ namespace battlefrogs {
         sf::Int32 currentFrameTime = 0;
         sf::Texture texture;
         sf::Sprite sprite;
-        sf::Vector2f position;
 
     public:
         Player();

@@ -20,15 +20,13 @@ int main()
             {
                 window.close();
             }
-
-
         }
 
         window.clear();
 
         sf::Time elapsed = clock.restart();
 
-        //battleFrogs.draw(elapsed.asMilliseconds());
+        battleFrogs.draw(elapsed.asMilliseconds());
 
         window.display();
     }
