@@ -31,3 +31,7 @@ endif()
 install(TARGETS BattleFrogs-SFML)
 
 file(COPY graphics DESTINATION ${CMAKE_BINARY_DIR}/bin)
+
+if (DEBUG)
+    add_definitions(-DDEBUG=1)
+endif (DEBUG)

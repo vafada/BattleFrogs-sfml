@@ -1,11 +1,13 @@
 #ifndef BATTLEFROGS_SFML_WORLD_H
 #define BATTLEFROGS_SFML_WORLD_H
 
+#include <vector>
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
 
 namespace battlefrogs {
 
@@ -22,6 +24,10 @@ namespace battlefrogs {
 
         sf::Texture backgroundTextures[8];
         sf::Sprite backgroundSprites[8];
+
+        std::vector<sf::RectangleShape> collisions;
+
+        void loadCollisions();
 
     public:
         static const int FLOOR_LEVEL = 672;
