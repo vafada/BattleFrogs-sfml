@@ -13,8 +13,12 @@ namespace battlefrogs {
         this->playing = true;
     }
 
+    void BattleFrogs::update(sf::Int32 duration) {
+        player.update(duration);
+    }
+
     void BattleFrogs::draw(sf::Int32 elapsed) {
-        camera.setCenter(player.getPosition());
+        camera.setCenter(player.getPosition().x, 720 / 2);
 
         renderWindow.setView(camera);
         renderWindow.draw(world.getSprite(camera.getCenter().x - (camera.getSize().x / 2)));

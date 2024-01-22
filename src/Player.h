@@ -18,6 +18,12 @@ namespace battlefrogs {
             ANIMATION_TYPE_ATTACK,
         };
 
+        enum FACING
+        {
+            FACING_LEFT,
+            FACING_RIGHT,
+        };
+
         constexpr static const int ANIMATION_FRAME_RATE[5] = {
                 83, // run
                 83, // jump
@@ -42,18 +48,32 @@ namespace battlefrogs {
 
         bool hasWeapon = false;
         ANIMATION_TYPE animationType = ANIMATION_TYPE_IDLE;
+        FACING facing = FACING_LEFT;
         int currentFrame = 0;
         sf::Int32 currentFrameTime = 0;
         sf::Texture texture;
         sf::Sprite sprite;
+        sf::Vector2f velocity;
+        float horizontalSpeed = 8.0f;
+        float friction = 0.35f;
+
+        void move();
+
+        bool isMoving = false;
+        bool wasMoving = false;
+
+        void updateAnimation();
+        void animationReset();
 
     public:
         Player();
 
         int getWalkingAnimation();
+        float getWalkingSpeed();
 
         sf::Sprite getSprite(sf::Int32 elapsed);
         sf::Vector2f getPosition();
+        void update(sf::Int32 duration);
     };
 
 }

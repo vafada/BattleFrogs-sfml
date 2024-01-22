@@ -12,6 +12,7 @@ namespace battlefrogs {
         BattleFrogs(sf::RenderWindow& window);
 
         void startPlaying();
+        void update(sf::Int32 duration);
         void draw(sf::Int32 duration);
 
     private:
