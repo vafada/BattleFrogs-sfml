@@ -28,7 +28,7 @@ int main()
 
         sf::Time elapsed = clock.restart();
 
-        battleFrogs.draw(elapsed.asMilliseconds());
+        //battleFrogs.draw(elapsed.asMilliseconds());
 
         window.display();
     }

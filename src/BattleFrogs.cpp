@@ -7,9 +7,6 @@ namespace battlefrogs {
                                                                 sf::Vector2f(1280.0f, 720.0f)),
                                                          world(sf::Vector2f(14709, 720)) {
         playing = false;
-
-        player.setTexture("graphics/player.png", 152, 195);
-        player.setPosition(battlefrogs::Player::STARTING_X, battlefrogs::World::FLOOR_LEVEL - 195);
     }
 
     void BattleFrogs::startPlaying() {
