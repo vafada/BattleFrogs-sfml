@@ -5,21 +5,30 @@
 #include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/View.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 
 namespace battlefrogs {
 
     class World {
     private:
+        static const int BACKGROUND_COUNT = 8;
+        constexpr static const int BACKGROUND_WIDTHS[8] = {
+                2000, 2000, 2000, 2000, 2000, 2000, 2000, 709
+        };
+
         sf::Vector2f size;
         sf::Texture starBackground;
-        sf::Sprite sprite;
+        sf::Sprite starBackgroundSprite;
+
+        sf::Texture backgroundTextures[8];
+        sf::Sprite backgroundSprites[8];
 
     public:
         static const int FLOOR_LEVEL = 672;
 
         World(sf::Vector2f size);
 
-        sf::Sprite getSprite(int x);
+        void render(sf::RenderWindow& renderWindow, sf::View& camera);
     };
 
 }

@@ -21,7 +21,7 @@ namespace battlefrogs {
         camera.setCenter(player.getPosition().x, 720 / 2);
 
         renderWindow.setView(camera);
-        renderWindow.draw(world.getSprite(camera.getCenter().x - (camera.getSize().x / 2)));
+        world.render(renderWindow, camera);
         renderWindow.draw(player.getSprite(elapsed));
     }
 }
