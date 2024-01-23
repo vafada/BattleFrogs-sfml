@@ -81,8 +81,7 @@ namespace battlefrogs {
 
 
         {
-            sf::RectangleShape playerBox(sf::Vector2f(WIDTH, HEIGHT));
-            playerBox.setPosition(newX, sprite.getPosition().y);
+            sf::FloatRect playerBox(newX, sprite.getPosition().y, WIDTH, HEIGHT);
 
             if (!world.isCollision(playerBox, false)) {
                 sprite.setPosition(newX, sprite.getPosition().y);
@@ -92,34 +91,34 @@ namespace battlefrogs {
             }
         }
 
-        if (velocity.y < 0) {
-            sf::RectangleShape playerBox(sf::Vector2f(WIDTH, HEIGHT));
-            playerBox.setPosition(sprite.getPosition().x, newY);
-            if (!world.isCollision(playerBox, false)) {
-                sprite.setPosition(sprite.getPosition().x, newY);
-            } else {
-                collidedVertically = true;
-            }
-        } else {
-            sprite.setPosition(sprite.getPosition().x, newY);
-            /*
-            sf::RectangleShape playerBox(sf::Vector2f(WIDTH, HEIGHT));
-            playerBox.setPosition(sprite.getPosition().x, newY);
+        {
+            if (velocity.y < 0) {
+                sf::FloatRect playerBox(sprite.getPosition().x, newY, WIDTH, HEIGHT);
 
-            if (!world.isCollision(this, getCollisionHitbox(new Rectangle(position.getMinX(), getPosition().getMaxY(), position.getWidth(), Math.max(velocity.y, gravity))), true)) {
-                position.setLocation(position.getX(), newY);
+                if (!world.isCollision(playerBox, false)) {
+                    sprite.setPosition(sprite.getPosition().x, newY);
+                } else {
+                    collidedVertically = true;
+                }
             } else {
-                velocity.y = 0;
-                collidedVertically = true;
-                onFloor = true;
+                sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH, (velocity.y > gravity ? velocity.y : gravity));
+
+                if (!world.isCollision(playerBox, true)) {
+                    sprite.setPosition(sprite.getPosition().x, newY + 1);
+                } else {
+                    velocity.y = 0;
+                    collidedVertically = true;
+                    onFloor = true;
+                }
             }
-             */
+
         }
 
 
         wasJumping = isJumping;
         wasMoving = isMoving;
-        isJumping = sprite.getPosition().y < World::FLOOR_LEVEL - HEIGHT && !onFloor;
+        isJumping = (sprite.getPosition().y < World::FLOOR_LEVEL - HEIGHT) && !onFloor;
+
         isMoving = abs(velocity.x) > 0;
 
         if (velocity.x > 0) {
@@ -135,7 +134,7 @@ namespace battlefrogs {
         if (wasJumping && !isJumping) {
             animationType = isMoving ? static_cast<ANIMATION_TYPE>(getWalkingAnimation()) : ANIMATION_TYPE_IDLE;
             animationReset();
-        } if (wasMoving && !isMoving) {
+        } else if (wasMoving && !isMoving) {
             animationType = ANIMATION_TYPE_IDLE;
             animationReset();
         } else if (!wasMoving && isMoving) {

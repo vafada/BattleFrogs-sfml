@@ -26,7 +26,7 @@ namespace battlefrogs {
         sf::Texture backgroundTextures[8];
         sf::Sprite backgroundSprites[8];
 
-        std::vector<sf::RectangleShape> collisions;
+        std::vector<sf::FloatRect> collisions;
         std::vector<ForegroundObject*> foregroundObjects;
 
         void loadCollisions();
@@ -38,7 +38,7 @@ namespace battlefrogs {
 
         void render(sf::RenderWindow& renderWindow, sf::View& camera);
         void renderForeground(sf::RenderWindow& renderWindow);
-        bool isCollision(sf::RectangleShape& entityHitbox, bool forGravity);
+        bool isCollision(sf::FloatRect& entityHitbox, bool forGravity);
         void addForegroundObjects();
     };
 

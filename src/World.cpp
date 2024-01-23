@@ -37,7 +37,10 @@ namespace battlefrogs {
 #ifdef DEBUG
         // draw collision boxes
         for (auto& collisionBox : collisions) {
-            renderWindow.draw(collisionBox);
+            sf::RectangleShape rectBoxUI(sf::Vector2f(collisionBox.width, collisionBox.height));
+            rectBoxUI.setPosition(collisionBox.left, collisionBox.top);
+            rectBoxUI.setFillColor(sf::Color::Magenta);
+            renderWindow.draw(rectBoxUI);
         }
 #endif // DEBUG
     }
@@ -48,25 +51,13 @@ namespace battlefrogs {
         }
     }
 
-    bool World::isCollision(sf::RectangleShape& entityHitbox, bool forGravity) {
-        float entityX1 = entityHitbox.getPosition().x;
-        float entityX2 = entityHitbox.getPosition().x + entityHitbox.getSize().x;
-
-        float entityY1 = entityHitbox.getPosition().y;
-        float entityY2 = entityHitbox.getPosition().y + entityHitbox.getSize().y;
-
+    bool World::isCollision(sf::FloatRect& entityHitbox, bool forGravity) {
         for (auto& collisionBox : collisions) {
             if (collisionBox.getSize().y == 0 && !forGravity) {
                 continue;
             }
 
-            float boxX1 = collisionBox.getPosition().x;
-            float boxX2 = collisionBox.getPosition().x + collisionBox.getSize().x;
-
-            float boxY1 = collisionBox.getPosition().y;
-            float boxY2 = collisionBox.getPosition().y + collisionBox.getSize().y;
-
-            if (entityX1 < boxX2 && entityX2 > boxX1 && entityY1 < boxY2 && entityY2 > boxY1) {
+            if (collisionBox.intersects(entityHitbox)) {
                 return true;
             }
         }
@@ -91,9 +82,7 @@ namespace battlefrogs {
                         int height;
                         issStream >> height;
 
-                        sf::RectangleShape box(sf::Vector2f(width, height));
-                        box.setPosition(x, y);
-                        box.setFillColor(sf::Color::Magenta);
+                        sf::FloatRect box(x, y, width, height);
 
                         collisions.push_back(box);
                     }
