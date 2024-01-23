@@ -132,7 +132,10 @@ namespace battlefrogs {
     }
 
     void Player::updateAnimation() {
-        if (wasMoving && !isMoving) {
+        if (wasJumping && !isJumping) {
+            animationType = isMoving ? static_cast<ANIMATION_TYPE>(getWalkingAnimation()) : ANIMATION_TYPE_IDLE;
+            animationReset();
+        } if (wasMoving && !isMoving) {
             animationType = ANIMATION_TYPE_IDLE;
             animationReset();
         } else if (!wasMoving && isMoving) {
