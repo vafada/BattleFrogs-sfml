@@ -60,10 +60,16 @@ namespace battlefrogs {
         float horizontalSpeed = 8.0f;
         float friction = 0.35f;
 
+        float gravity = 0.75f;
+        float jumpSpeed = 30.0f * gravity;
+
         void move(World& world);
 
         bool isMoving = false;
         bool wasMoving = false;
+
+        bool isJumping = false;
+        bool wasJumping = false;
 
         void updateAnimation();
         void animationReset();
