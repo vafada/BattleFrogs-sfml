@@ -103,12 +103,12 @@ namespace battlefrogs {
             } else {
                 sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH, (velocity.y > gravity ? velocity.y : gravity));
 
-                if (!world.isCollision(playerBox, true)) {
-                    sprite.setPosition(sprite.getPosition().x, newY + 1);
-                } else {
+                if (world.isCollision(playerBox, true)) {
                     velocity.y = 0;
                     collidedVertically = true;
                     onFloor = true;
+                } else {
+                    sprite.setPosition(sprite.getPosition().x, newY + 1);
                 }
             }
 

@@ -53,7 +53,7 @@ namespace battlefrogs {
 
     bool World::isCollision(sf::FloatRect& entityHitbox, bool forGravity) {
         for (auto& collisionBox : collisions) {
-            if (collisionBox.getSize().y == 0 && !forGravity) {
+            if (collisionBox.height == 0 && !forGravity) {
                 continue;
             }
 
@@ -61,6 +61,8 @@ namespace battlefrogs {
                 return true;
             }
         }
+
+        return false;
     }
 
     void World::loadCollisions() {
