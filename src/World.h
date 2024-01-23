@@ -8,6 +8,7 @@
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
+#include "ForegroundObject.h"
 
 namespace battlefrogs {
 
@@ -26,6 +27,7 @@ namespace battlefrogs {
         sf::Sprite backgroundSprites[8];
 
         std::vector<sf::RectangleShape> collisions;
+        std::vector<ForegroundObject> foregroundObjects;
 
         void loadCollisions();
 
@@ -35,7 +37,9 @@ namespace battlefrogs {
         World(sf::Vector2f size);
 
         void render(sf::RenderWindow& renderWindow, sf::View& camera);
+        void renderForeground(sf::RenderWindow& renderWindow);
         bool isCollision(sf::RectangleShape& entityHitbox, bool forGravity);
+        void addForegroundObjects();
     };
 
 }

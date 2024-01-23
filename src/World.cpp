@@ -20,6 +20,7 @@ namespace battlefrogs {
         }
 
         loadCollisions();
+        addForegroundObjects();
     }
 
     void World::render(sf::RenderWindow &renderWindow, sf::View &camera) {
@@ -39,6 +40,12 @@ namespace battlefrogs {
             renderWindow.draw(collisionBox);
         }
 #endif // DEBUG
+    }
+
+    void World::renderForeground(sf::RenderWindow &renderWindow) {
+        for (auto &foregroundObject: foregroundObjects) {
+            foregroundObject.render(renderWindow);
+        }
     }
 
     bool World::isCollision(sf::RectangleShape& entityHitbox, bool forGravity) {
@@ -94,5 +101,10 @@ namespace battlefrogs {
             }
             infile.close();
         }
+    }
+
+    void World::addForegroundObjects() {
+        foregroundObjects.push_back(ForegroundObject("graphics/LeaveCryo_Door_Broken.png", 8040, 0, 211, 720));
+        foregroundObjects.push_back(ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720));
     }
 }

@@ -54,6 +54,10 @@ namespace battlefrogs {
         float newX = sprite.getPosition().x + velocity.x;
         float newY = sprite.getPosition().y + velocity.y;
 
+        if (newY > (World::FLOOR_LEVEL - HEIGHT)) {
+            newY = World::FLOOR_LEVEL - HEIGHT;
+        }
+
         bool collidedHorizontally = false;
         bool collidedVertically = false;
 

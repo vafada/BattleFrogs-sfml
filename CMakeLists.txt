@@ -16,7 +16,9 @@ add_executable(BattleFrogs-SFML src/main.cpp
         src/Player.cpp
         src/Player.h
         src/World.cpp
-        src/World.h)
+        src/World.h
+        src/ForegroundObject.cpp
+        src/ForegroundObject.h)
 target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics)
 target_compile_features(BattleFrogs-SFML PRIVATE cxx_std_17)
 

@@ -23,5 +23,6 @@ namespace battlefrogs {
         renderWindow.setView(camera);
         world.render(renderWindow, camera);
         player.render(renderWindow, camera, world, elapsed);
+        world.renderForeground(renderWindow);
     }
 }
