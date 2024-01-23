@@ -27,7 +27,7 @@ namespace battlefrogs {
         sf::Sprite backgroundSprites[8];
 
         std::vector<sf::RectangleShape> collisions;
-        std::vector<ForegroundObject> foregroundObjects;
+        std::vector<ForegroundObject*> foregroundObjects;
 
         void loadCollisions();
 

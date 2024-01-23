@@ -44,7 +44,7 @@ namespace battlefrogs {
 
     void World::renderForeground(sf::RenderWindow &renderWindow) {
         for (auto &foregroundObject: foregroundObjects) {
-            foregroundObject.render(renderWindow);
+            foregroundObject->render(renderWindow);
         }
     }
 
@@ -104,7 +104,7 @@ namespace battlefrogs {
     }
 
     void World::addForegroundObjects() {
-        foregroundObjects.push_back(ForegroundObject("graphics/LeaveCryo_Door_Broken.png", 8040, 0, 211, 720));
-        foregroundObjects.push_back(ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720));
+        foregroundObjects.push_back(new ForegroundObject("graphics/LeaveCryo_Door_Broken.png", 8040, 0, 211, 720));
+        foregroundObjects.push_back(new ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720));
     }
 }
