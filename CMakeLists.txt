@@ -19,7 +19,7 @@ add_executable(BattleFrogs-SFML src/main.cpp
         src/World.h
         src/ForegroundObject.cpp
         src/ForegroundObject.h)
-target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics)
+target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics sfml-audio)
 target_compile_features(BattleFrogs-SFML PRIVATE cxx_std_17)
 
 if(WIN32)
@@ -33,6 +33,7 @@ endif()
 install(TARGETS BattleFrogs-SFML)
 
 file(COPY graphics DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(COPY sounds DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 if (DEBUG)
     add_definitions(-DDEBUG=1)

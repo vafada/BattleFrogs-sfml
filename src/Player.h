@@ -7,13 +7,14 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/View.hpp"
 #include "World.h"
+#include "SFML/Audio/SoundBuffer.hpp"
+#include "SFML/Audio/Sound.hpp"
 
 namespace battlefrogs {
 
     class Player {
     private:
-        enum ANIMATION_TYPE
-        {
+        enum ANIMATION_TYPE {
             ANIMATION_TYPE_RUN,
             ANIMATION_TYPE_JUMP,
             ANIMATION_TYPE_IDLE,
@@ -21,8 +22,7 @@ namespace battlefrogs {
             ANIMATION_TYPE_ATTACK,
         };
 
-        enum FACING
-        {
+        enum FACING {
             FACING_LEFT,
             FACING_RIGHT,
         };
@@ -57,13 +57,22 @@ namespace battlefrogs {
         sf::Texture texture;
         sf::Sprite sprite;
         sf::Vector2f velocity;
+
+        sf::Sound sound;
+        sf::SoundBuffer walkingSoundBuffers[3];
+
         float horizontalSpeed = 8.0f;
         float friction = 0.35f;
 
         float gravity = 0.75f;
         float jumpSpeed = 30.0f * gravity;
 
-        void move(World& world);
+        long walkingSoundInterval = 750;
+        long runningSoundInterval = 200;
+
+        long lastMovingSound = 0;
+
+        void move(World &world);
 
         bool isMoving = false;
         bool wasMoving = false;
@@ -72,17 +81,24 @@ namespace battlefrogs {
         bool wasJumping = false;
 
         void updateAnimation();
+
         void animationReset();
+
+        void playWalkingSound();
 
     public:
         Player();
+        ~Player();
 
         int getWalkingAnimation();
+
         float getWalkingSpeed();
 
         sf::Vector2f getPosition();
-        void update(World& world, sf::Int32 duration);
-        void render(sf::RenderWindow& renderWindow, sf::View& camera, World& world, sf::Int32 elapsed);
+
+        void update(World &world, sf::Int32 duration);
+
+        void render(sf::RenderWindow &renderWindow, sf::View &camera, World &world, sf::Int32 elapsed);
     };
 
 }

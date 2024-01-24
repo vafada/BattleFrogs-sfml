@@ -1,7 +1,10 @@
 #include <iostream>
+#include <cstdlib>
+#include <chrono>
 #include "Player.h"
 #include "World.h"
 #include "SFML/Window/Keyboard.hpp"
+#include "SFML/Audio/Sound.hpp"
 
 namespace battlefrogs {
     Player::Player() {
@@ -12,6 +15,17 @@ namespace battlefrogs {
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
         sprite.setPosition(battlefrogs::Player::STARTING_X, battlefrogs::World::FLOOR_LEVEL - HEIGHT);
+
+        for (int i = 0; i < 3; i++) {
+            std::string waveFile = "sounds/AnnaB_footstep" + std::to_string(i + 1) + ".wav";
+            if (!walkingSoundBuffers[i].loadFromFile(waveFile)) {
+                std::cerr << "sounds/AnnaB_footstep" + std::to_string(i + 1) << std::endl;
+            }
+        }
+    }
+
+    Player::~Player() {
+
     }
 
     int Player::getWalkingAnimation() {
@@ -51,6 +65,8 @@ namespace battlefrogs {
             animations[animType].setCurrentFrame(0);
             animations[animType].stopAt(ANIMATION_FRAME_COUNT[animType] - 1);*/
         }
+
+        playWalkingSound();
 
         move(world);
     }
@@ -101,7 +117,8 @@ namespace battlefrogs {
                     collidedVertically = true;
                 }
             } else {
-                sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH, (velocity.y > gravity ? velocity.y : gravity));
+                sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH,
+                                        (velocity.y > gravity ? velocity.y : gravity));
 
                 if (world.isCollision(playerBox, true)) {
                     velocity.y = 0;
@@ -159,7 +176,8 @@ namespace battlefrogs {
         // https://stackoverflow.com/questions/72783484/how-to-make-player-animation-in-sfml
         if (currentFrameTime >= ANIMATION_FRAME_RATE[animationType]) {
             sprite.setTextureRect(
-                    sf::IntRect((currentFrame * WIDTH) + facingXAdd, animationType * HEIGHT, (WIDTH * facingMultiplier), HEIGHT));
+                    sf::IntRect((currentFrame * WIDTH) + facingXAdd, animationType * HEIGHT, (WIDTH * facingMultiplier),
+                                HEIGHT));
             currentFrameTime -= ANIMATION_FRAME_RATE[animationType];
             if (animationType == ANIMATION_TYPE_JUMP) {
                 int nextFrame = currentFrame + 1;
@@ -172,5 +190,20 @@ namespace battlefrogs {
             }
         }
         renderWindow.draw(sprite);
+    }
+
+    void Player::playWalkingSound() {
+        long now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+
+        long soundInterval = hasWeapon ? runningSoundInterval : walkingSoundInterval;
+
+        if (isMoving && !isJumping && now - soundInterval > lastMovingSound) {
+            int randomSound = rand() % 3;
+
+            sound.setBuffer(walkingSoundBuffers[randomSound]);
+            sound.play();
+            lastMovingSound = now;
+        }
     }
 }
