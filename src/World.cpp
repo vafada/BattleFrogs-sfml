@@ -53,7 +53,7 @@ namespace battlefrogs {
 
     bool World::isCollision(sf::FloatRect& entityHitbox, bool forGravity) {
         for (auto& collisionBox : collisions) {
-            if (collisionBox.height == 0 && !forGravity) {
+            if (collisionBox.height == 2 && !forGravity) {
                 continue;
             }
 
@@ -83,6 +83,10 @@ namespace battlefrogs {
                         issStream >> width;
                         int height;
                         issStream >> height;
+
+                        if (height == 0) {
+                            height = 2;
+                        }
 
                         sf::FloatRect box(x, y, width, height);
 
