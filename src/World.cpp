@@ -20,6 +20,13 @@ namespace battlefrogs {
         }
 
         loadCollisions();
+
+        // add doors
+        this->doors.push_back(new Door("graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720, sf::FloatRect(6130, 400, 120, 320)));
+        this->doors.push_back(new Door("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720, sf::FloatRect(11375, 400, 120, 320)));
+        this->doors.push_back(new Door("graphics/Reactor_door_Intact.png", 2135, 0, 502, 720, sf::FloatRect(2135, 400, 120, 320)));
+
+
         addForegroundObjects();
     }
 
@@ -43,12 +50,18 @@ namespace battlefrogs {
             renderWindow.draw(rectBoxUI);
         }
 #endif // DEBUG
+
+        for (const auto &door: doors) {
+            door->render(renderWindow);
+        }
     }
 
     void World::renderForeground(sf::RenderWindow &renderWindow) {
         for (auto &foregroundObject: foregroundObjects) {
             foregroundObject->render(renderWindow);
         }
+
+
     }
 
     bool World::isCollision(sf::FloatRect& entityHitbox, bool forGravity) {
@@ -58,6 +71,12 @@ namespace battlefrogs {
             }
 
             if (collisionBox.intersects(entityHitbox)) {
+                return true;
+            }
+        }
+
+        for (const auto &door: doors) {
+            if (door->intersects(entityHitbox)) {
                 return true;
             }
         }

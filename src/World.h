@@ -9,6 +9,7 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
 #include "ForegroundObject.h"
+#include "Door.h"
 
 namespace battlefrogs {
 
@@ -28,6 +29,7 @@ namespace battlefrogs {
 
         std::vector<sf::FloatRect> collisions;
         std::vector<ForegroundObject*> foregroundObjects;
+        std::vector<Door*> doors;
 
         void loadCollisions();
 
