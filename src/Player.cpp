@@ -152,13 +152,14 @@ namespace battlefrogs {
         currentFrameTime += elapsed;
 
         int facingMultiplier = facing == FACING_LEFT ? 1 : -1;
+        int facingXAdd = facing == FACING_LEFT ? 0 : WIDTH;
 
         // std::cout << "player frame total elapsed = " << currentFrameTime << std::endl;
 
         // https://stackoverflow.com/questions/72783484/how-to-make-player-animation-in-sfml
         if (currentFrameTime >= ANIMATION_FRAME_RATE[animationType]) {
             sprite.setTextureRect(
-                    sf::IntRect(currentFrame * WIDTH, animationType * HEIGHT, (WIDTH * facingMultiplier), HEIGHT));
+                    sf::IntRect((currentFrame * WIDTH) + facingXAdd, animationType * HEIGHT, (WIDTH * facingMultiplier), HEIGHT));
             currentFrameTime -= ANIMATION_FRAME_RATE[animationType];
             if (animationType == ANIMATION_TYPE_JUMP) {
                 int nextFrame = currentFrame + 1;
