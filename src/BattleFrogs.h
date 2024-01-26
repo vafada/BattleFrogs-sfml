@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "World.h"
 #include "SFML/Graphics/RenderWindow.hpp"
+#include "TextScreen.h"
+#include "SFML/Graphics/Font.hpp"
 
 namespace battlefrogs {
 
@@ -19,6 +21,7 @@ namespace battlefrogs {
         bool playing;
         World world;
         Player player;
+        TextScreen textScreen;
         sf::RenderWindow& renderWindow;
         sf::View camera;
     };

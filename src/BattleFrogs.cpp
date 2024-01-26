@@ -7,6 +7,7 @@ namespace battlefrogs {
                                                                 sf::Vector2f(1280.0f, 720.0f)),
                                                          world(sf::Vector2f(14709, 720)) {
         playing = false;
+        textScreen.setText("Use WASD/Arrow keys to move and jump.");
     }
 
     void BattleFrogs::startPlaying() {
@@ -24,5 +25,7 @@ namespace battlefrogs {
         world.render(renderWindow, camera);
         player.render(renderWindow, camera, world, elapsed);
         world.renderForeground(renderWindow);
+
+        textScreen.render(renderWindow, player.getPosition().x, elapsed);
     }
 }

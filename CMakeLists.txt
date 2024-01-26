@@ -20,7 +20,9 @@ add_executable(BattleFrogs-SFML src/main.cpp
         src/ForegroundObject.cpp
         src/ForegroundObject.h
         src/Door.cpp
-        src/Door.h)
+        src/Door.h
+        src/TextScreen.cpp
+        src/TextScreen.h)
 target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics sfml-audio)
 target_compile_features(BattleFrogs-SFML PRIVATE cxx_std_17)
 
