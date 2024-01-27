@@ -17,9 +17,19 @@ namespace battlefrogs {
         sprite.setPosition(battlefrogs::Player::STARTING_X, 672 - HEIGHT);
 
         for (int i = 0; i < 3; i++) {
-            std::string waveFile = "sounds/AnnaB_footstep" + std::to_string(i + 1) + ".wav";
-            if (!walkingSoundBuffers[i].loadFromFile(waveFile)) {
-                std::cerr << "sounds/AnnaB_footstep" + std::to_string(i + 1) << std::endl;
+            {
+                // walking
+                std::string waveFile = "sounds/AnnaB_footstep" + std::to_string(i + 1) + ".wav";
+                if (!walkingSoundBuffers[i].loadFromFile(waveFile)) {
+                    std::cerr << "sounds/AnnaB_footstep" + std::to_string(i + 1) << std::endl;
+                }
+            }
+            {
+                // attacking
+                std::string waveFile = "sounds/weapon_shot" + std::to_string(i + 1) + ".wav";
+                if (!attackSoundBuffers[i].loadFromFile(waveFile)) {
+                    std::cerr << "sounds/weapon_shot" + std::to_string(i + 1) << std::endl;
+                }
             }
         }
     }
@@ -42,12 +52,46 @@ namespace battlefrogs {
 
     void Player::update(World *world, sf::Int32 duration) {
 
+        wasAttacking = isAttacking;
+        bool cycledAttack = false;
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        long now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+
+        long attackDelta = now - attackStart;
+
+        if (isAttacking && attackDelta >= ATTACK_TIME) {
+            isAttacking = false;
+            cycledAttack = true;
+        }
+
+        if (hasWeapon && !wasJumping && !isJumping && !isAttacking && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            attackStart = now;
+            isAttacking = true;
+            hasAttackHappened = false;
+        }
+
+        if (isAttacking && !hasAttackHappened && attackDelta >= ATTACK_MISSILE_TIME) {
+            // Missile missile = new Missile(this, playerAttack);
+            playShootingSound();
+            // world.addEntity(missile);
+            hasAttackHappened = true;
+        }
+
+        if (wasAttacking && !isAttacking) {
+            animationType = ANIMATION_TYPE_IDLE;
+            animationReset();
+        } else if (cycledAttack && isAttacking) {
+            animationReset();
+        }
+
+        if (!isAttacking &&
+            (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))) {
             // left key is pressed: move our character
             velocity.x -= horizontalSpeed * getWalkingSpeed();
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        if (!isAttacking &&
+            (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))) {
             // left key is pressed: move our character
             velocity.x += horizontalSpeed * getWalkingSpeed();
         }
@@ -61,9 +105,6 @@ namespace battlefrogs {
             isJumping = true;
             animationType = ANIMATION_TYPE_JUMP;
             animationReset();
-            /*animations[animType].start();
-            animations[animType].setCurrentFrame(0);
-            animations[animType].stopAt(ANIMATION_FRAME_COUNT[animType] - 1);*/
         }
 
         playWalkingSound();
@@ -151,6 +192,11 @@ namespace battlefrogs {
         if (wasJumping && !isJumping) {
             animationType = isMoving ? static_cast<ANIMATION_TYPE>(getWalkingAnimation()) : ANIMATION_TYPE_IDLE;
             animationReset();
+        } else if (isAttacking) {
+            animationType = ANIMATION_TYPE_ATTACK;
+            if (!wasAttacking) {
+                animationReset();
+            }
         } else if (wasMoving && !isMoving) {
             animationType = ANIMATION_TYPE_IDLE;
             animationReset();
@@ -169,17 +215,19 @@ namespace battlefrogs {
         currentFrameTime += elapsed;
 
         int facingMultiplier = facing == FACING_LEFT ? 1 : -1;
-        int facingXAdd = facing == FACING_LEFT ? 0 : WIDTH;
+        int width = animationType == ANIMATION_TYPE_ATTACK ? ATTACK_WIDTH : WIDTH;
+        int facingXAdd = facing == FACING_LEFT ? 0 : width;
+
 
         // std::cout << "player frame total elapsed = " << currentFrameTime << std::endl;
 
         // https://stackoverflow.com/questions/72783484/how-to-make-player-animation-in-sfml
         if (currentFrameTime >= ANIMATION_FRAME_RATE[animationType]) {
             sprite.setTextureRect(
-                    sf::IntRect((currentFrame * WIDTH) + facingXAdd, animationType * HEIGHT, (WIDTH * facingMultiplier),
+                    sf::IntRect((currentFrame * width) + facingXAdd, animationType * HEIGHT, (width * facingMultiplier),
                                 HEIGHT));
             currentFrameTime -= ANIMATION_FRAME_RATE[animationType];
-            if (animationType == ANIMATION_TYPE_JUMP) {
+            if (animationType == ANIMATION_TYPE_JUMP || animationType == ANIMATION_TYPE_ATTACK) {
                 int nextFrame = currentFrame + 1;
                 // for the jump animation, we stop at the last frame
                 if (nextFrame != ANIMATION_FRAME_COUNT[animationType]) {
@@ -204,6 +252,15 @@ namespace battlefrogs {
             sound.setBuffer(walkingSoundBuffers[randomSound]);
             sound.play();
             lastMovingSound = now;
+        }
+    }
+
+    void Player::playShootingSound() {
+        if (isAttacking) {
+            int randomSound = rand() % 3;
+
+            sound.setBuffer(attackSoundBuffers[randomSound]);
+            sound.play();
         }
     }
 

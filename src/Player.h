@@ -48,8 +48,8 @@ namespace battlefrogs {
         static const int HEIGHT = 195;
         static const int WIDTH = 152;
         static const int ATTACK_WIDTH = 200;
+        static const int ATTACK_MISSILE_TIME = ANIMATION_FRAME_RATE[ANIMATION_TYPE_ATTACK] * 3;
 
-        bool hasWeapon = false;
         ANIMATION_TYPE animationType = ANIMATION_TYPE_IDLE;
         FACING facing = FACING_LEFT;
         int currentFrame = 0;
@@ -60,6 +60,7 @@ namespace battlefrogs {
 
         sf::Sound sound;
         sf::SoundBuffer walkingSoundBuffers[3];
+        sf::SoundBuffer attackSoundBuffers[3];
 
         float horizontalSpeed = 8.0f;
         float friction = 0.35f;
@@ -80,6 +81,14 @@ namespace battlefrogs {
         bool isJumping = false;
         bool wasJumping = false;
 
+        int ATTACK_TIME = ANIMATION_FRAME_RATE[ANIMATION_TYPE_ATTACK] * ANIMATION_FRAME_COUNT[ANIMATION_TYPE_ATTACK];
+        // TODO
+        bool hasWeapon = true;
+        bool isAttacking = false;
+        bool wasAttacking = false;
+        bool hasAttackHappened = false;
+        long attackStart = 0;
+
         void updateAnimation();
 
         void animationReset();
@@ -94,13 +103,13 @@ namespace battlefrogs {
         int getWalkingAnimation();
 
         float getWalkingSpeed();
+        void playShootingSound();
 
         sf::Vector2f getPosition();
 
         void update(World *world, sf::Int32 duration);
 
         void render(sf::RenderWindow &renderWindow, sf::Int32 elapsed);
-
 
         sf::Rect<float> getCollisionBox();
     };
