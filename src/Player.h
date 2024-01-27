@@ -6,11 +6,11 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/View.hpp"
-#include "World.h"
 #include "SFML/Audio/SoundBuffer.hpp"
 #include "SFML/Audio/Sound.hpp"
 
 namespace battlefrogs {
+    class World;
 
     class Player {
     private:
@@ -72,7 +72,7 @@ namespace battlefrogs {
 
         long lastMovingSound = 0;
 
-        void move(World &world);
+        void move(World *world);
 
         bool isMoving = false;
         bool wasMoving = false;
@@ -96,9 +96,9 @@ namespace battlefrogs {
 
         sf::Vector2f getPosition();
 
-        void update(World &world, sf::Int32 duration);
+        void update(World *world, sf::Int32 duration);
 
-        void render(sf::RenderWindow &renderWindow, sf::View &camera, World &world, sf::Int32 elapsed);
+        void render(sf::RenderWindow &renderWindow, sf::Int32 elapsed);
     };
 
 }

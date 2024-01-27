@@ -1,7 +1,6 @@
 #ifndef BATTLEFROGS_SFML_BATTLEFROGS_H
 #define BATTLEFROGS_SFML_BATTLEFROGS_H
 
-#include "Player.h"
 #include "World.h"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "TextScreen.h"
@@ -20,7 +19,6 @@ namespace battlefrogs {
     private:
         bool playing;
         World world;
-        Player player;
         TextScreen textScreen;
         sf::RenderWindow& renderWindow;
         sf::View camera;

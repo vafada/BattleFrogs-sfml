@@ -15,17 +15,16 @@ namespace battlefrogs {
     }
 
     void BattleFrogs::update(sf::Int32 duration) {
-        player.update(world, duration);
+        world.update(duration);
     }
 
     void BattleFrogs::draw(sf::Int32 elapsed) {
-        camera.setCenter(player.getPosition().x, 720 / 2);
+        camera.setCenter(world.getPlayerXPosition(), 720 / 2);
 
         renderWindow.setView(camera);
-        world.render(renderWindow, camera);
-        player.render(renderWindow, camera, world, elapsed);
+        world.render(renderWindow, camera, elapsed);
         world.renderForeground(renderWindow);
 
-        textScreen.render(renderWindow, player.getPosition().x, elapsed);
+        textScreen.render(renderWindow, world.getPlayerXPosition(), elapsed);
     }
 }

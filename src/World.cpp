@@ -30,7 +30,7 @@ namespace battlefrogs {
         addForegroundObjects();
     }
 
-    void World::render(sf::RenderWindow &renderWindow, sf::View &camera) {
+    void World::render(sf::RenderWindow &renderWindow, sf::View &camera, sf::Int32 elapsed) {
         starBackgroundSprite.setPosition(sf::Vector2f(camera.getCenter().x - (camera.getSize().x / 2), 0));
         renderWindow.draw(starBackgroundSprite);
 
@@ -54,6 +54,8 @@ namespace battlefrogs {
         for (const auto &door: doors) {
             door->render(renderWindow);
         }
+
+        player.render(renderWindow, elapsed);
     }
 
     void World::renderForeground(sf::RenderWindow &renderWindow) {
@@ -120,5 +122,13 @@ namespace battlefrogs {
     void World::addForegroundObjects() {
         foregroundObjects.push_back(new ForegroundObject("graphics/LeaveCryo_Door_Broken.png", 8040, 0, 211, 720));
         foregroundObjects.push_back(new ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720));
+    }
+
+    void World::update(sf::Int32 duration) {
+        player.update(this, duration);
+    }
+
+    float World::getPlayerXPosition() {
+        return player.getPosition().x;
     }
 }

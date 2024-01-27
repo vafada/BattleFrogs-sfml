@@ -14,7 +14,7 @@ namespace battlefrogs {
 
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
-        sprite.setPosition(battlefrogs::Player::STARTING_X, battlefrogs::World::FLOOR_LEVEL - HEIGHT);
+        sprite.setPosition(battlefrogs::Player::STARTING_X, 672 - HEIGHT);
 
         for (int i = 0; i < 3; i++) {
             std::string waveFile = "sounds/AnnaB_footstep" + std::to_string(i + 1) + ".wav";
@@ -40,7 +40,7 @@ namespace battlefrogs {
         return hasWeapon ? 1.95f : 1.35f;
     }
 
-    void Player::update(World &world, sf::Int32 duration) {
+    void Player::update(World *world, sf::Int32 duration) {
 
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
@@ -71,7 +71,7 @@ namespace battlefrogs {
         move(world);
     }
 
-    void Player::move(World &world) {
+    void Player::move(World *world) {
         velocity.x *= friction;
 
         if (abs(velocity.x) < friction) {
@@ -87,8 +87,8 @@ namespace battlefrogs {
         float newX = sprite.getPosition().x + velocity.x;
         float newY = sprite.getPosition().y + velocity.y;
 
-        if (newY > (World::FLOOR_LEVEL - HEIGHT)) {
-            newY = World::FLOOR_LEVEL - HEIGHT;
+        if (newY > (672 - HEIGHT)) {
+            newY = 672 - HEIGHT;
         }
 
         bool collidedHorizontally = false;
@@ -99,7 +99,7 @@ namespace battlefrogs {
         {
             sf::FloatRect playerBox(newX, sprite.getPosition().y, WIDTH, HEIGHT);
 
-            if (!world.isCollision(playerBox, false)) {
+            if (!(world->isCollision(playerBox, false))) {
                 sprite.setPosition(newX, sprite.getPosition().y);
             } else {
                 velocity.x = 0;
@@ -111,7 +111,7 @@ namespace battlefrogs {
             if (velocity.y < 0) {
                 sf::FloatRect playerBox(sprite.getPosition().x, newY, WIDTH, HEIGHT);
 
-                if (!world.isCollision(playerBox, false)) {
+                if (!(world->isCollision(playerBox, false))) {
                     sprite.setPosition(sprite.getPosition().x, newY);
                 } else {
                     collidedVertically = true;
@@ -120,7 +120,7 @@ namespace battlefrogs {
                 sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH,
                                         (velocity.y > gravity ? velocity.y : gravity));
 
-                if (world.isCollision(playerBox, true)) {
+                if (world->isCollision(playerBox, true)) {
                     velocity.y = 0;
                     collidedVertically = true;
                     onFloor = true;
@@ -134,7 +134,7 @@ namespace battlefrogs {
 
         wasJumping = isJumping;
         wasMoving = isMoving;
-        isJumping = (sprite.getPosition().y < World::FLOOR_LEVEL - HEIGHT) && !onFloor;
+        isJumping = (sprite.getPosition().y < 672 - HEIGHT) && !onFloor;
 
         isMoving = abs(velocity.x) > 0;
 
@@ -165,7 +165,7 @@ namespace battlefrogs {
         currentFrame = 0;
     }
 
-    void Player::render(sf::RenderWindow &renderWindow, sf::View &camera, World &world, sf::Int32 elapsed) {
+    void Player::render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) {
         currentFrameTime += elapsed;
 
         int facingMultiplier = facing == FACING_LEFT ? 1 : -1;

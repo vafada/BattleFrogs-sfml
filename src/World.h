@@ -10,6 +10,9 @@
 #include "SFML/Graphics/RectangleShape.hpp"
 #include "ForegroundObject.h"
 #include "Door.h"
+#include "Player.h"
+
+
 
 namespace battlefrogs {
 
@@ -31,6 +34,8 @@ namespace battlefrogs {
         std::vector<ForegroundObject*> foregroundObjects;
         std::vector<Door*> doors;
 
+        Player player;
+
         void loadCollisions();
 
     public:
@@ -38,10 +43,14 @@ namespace battlefrogs {
 
         World(sf::Vector2f size);
 
-        void render(sf::RenderWindow& renderWindow, sf::View& camera);
+        void render(sf::RenderWindow& renderWindow, sf::View& camera, sf::Int32 elapsed);
         void renderForeground(sf::RenderWindow& renderWindow);
         bool isCollision(sf::FloatRect& entityHitbox, bool forGravity);
         void addForegroundObjects();
+
+        void update(sf::Int32 duration);
+
+        float getPlayerXPosition();
     };
 
 }
