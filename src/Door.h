@@ -19,6 +19,8 @@ namespace battlefrogs {
         void render(sf::RenderWindow& renderWindow);
 
         bool intersects(sf::FloatRect anotherBox);
+
+        sf::FloatRect getCollisionBox();
     };
 
 } // battlefrogs

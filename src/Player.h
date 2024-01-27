@@ -88,6 +88,7 @@ namespace battlefrogs {
 
     public:
         Player();
+
         ~Player();
 
         int getWalkingAnimation();
@@ -99,6 +100,9 @@ namespace battlefrogs {
         void update(World *world, sf::Int32 duration);
 
         void render(sf::RenderWindow &renderWindow, sf::Int32 elapsed);
+
+
+        sf::Rect<float> getCollisionBox();
     };
 
 }

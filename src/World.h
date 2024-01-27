@@ -13,8 +13,8 @@
 #include "Player.h"
 
 
-
 namespace battlefrogs {
+    class BattleFrogs;
 
     class World {
     private:
@@ -48,7 +48,7 @@ namespace battlefrogs {
         bool isCollision(sf::FloatRect& entityHitbox, bool forGravity);
         void addForegroundObjects();
 
-        void update(sf::Int32 duration);
+        void update(BattleFrogs *battleFrogs, sf::Int32 duration);
 
         float getPlayerXPosition();
     };

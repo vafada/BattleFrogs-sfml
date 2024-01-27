@@ -15,6 +15,7 @@ namespace battlefrogs {
         void startPlaying();
         void update(sf::Int32 duration);
         void draw(sf::Int32 duration);
+        void setTextScreenText(std::string message);
 
     private:
         bool playing;

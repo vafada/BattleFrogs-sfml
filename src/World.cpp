@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "World.h"
+#include "BattleFrogs.h"
 
 namespace battlefrogs {
     World::World(sf::Vector2f size) : size(size), collisions(39) {
@@ -41,6 +42,12 @@ namespace battlefrogs {
             bgx += BACKGROUND_WIDTHS[i];
         }
 
+        for (const auto &door: doors) {
+            door->render(renderWindow);
+        }
+
+        player.render(renderWindow, elapsed);
+
 #ifdef DEBUG
         // draw collision boxes
         for (auto& collisionBox : collisions) {
@@ -49,13 +56,15 @@ namespace battlefrogs {
             rectBoxUI.setFillColor(sf::Color::Magenta);
             renderWindow.draw(rectBoxUI);
         }
-#endif // DEBUG
 
         for (const auto &door: doors) {
-            door->render(renderWindow);
+            sf::FloatRect collisionBox = door->getCollisionBox();
+            sf::RectangleShape rectBoxUI(sf::Vector2f(collisionBox.width, collisionBox.height));
+            rectBoxUI.setPosition(collisionBox.left, collisionBox.top);
+            rectBoxUI.setFillColor(sf::Color::Magenta);
+            renderWindow.draw(rectBoxUI);
         }
-
-        player.render(renderWindow, elapsed);
+#endif // DEBUG
     }
 
     void World::renderForeground(sf::RenderWindow &renderWindow) {
@@ -124,7 +133,16 @@ namespace battlefrogs {
         foregroundObjects.push_back(new ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720));
     }
 
-    void World::update(sf::Int32 duration) {
+    void World::update(BattleFrogs *battleFrogs, sf::Int32 duration) {
+        for (const auto &door: doors) {
+            sf::FloatRect doorCollisionBox = door->getCollisionBox();
+            sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200, doorCollisionBox.height);
+            if (expandedBox.intersects(player.getCollisionBox())) {
+                // TODO check if player has weapon;
+                battleFrogs->setTextScreenText("This door is locked. You need to find the key.");
+            }
+        }
+
         player.update(this, duration);
     }
 

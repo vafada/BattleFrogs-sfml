@@ -206,4 +206,9 @@ namespace battlefrogs {
             lastMovingSound = now;
         }
     }
+
+    sf::Rect<float> Player::getCollisionBox() {
+        return sf::FloatRect(sprite.getPosition().x, sprite.getPosition().y, WIDTH, HEIGHT);
+    }
+
 }

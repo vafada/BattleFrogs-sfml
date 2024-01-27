@@ -21,4 +21,8 @@ namespace battlefrogs {
     bool Door::intersects(sf::FloatRect anotherBox) {
         return this->collisionBox.intersects(anotherBox);
     }
+
+    sf::FloatRect Door::getCollisionBox() {
+        return sf::FloatRect(collisionBox);
+    }
 } // battlefrogs

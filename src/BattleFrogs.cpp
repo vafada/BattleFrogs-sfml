@@ -15,7 +15,7 @@ namespace battlefrogs {
     }
 
     void BattleFrogs::update(sf::Int32 duration) {
-        world.update(duration);
+        world.update(this, duration);
     }
 
     void BattleFrogs::draw(sf::Int32 elapsed) {
@@ -26,5 +26,9 @@ namespace battlefrogs {
         world.renderForeground(renderWindow);
 
         textScreen.render(renderWindow, world.getPlayerXPosition(), elapsed);
+    }
+
+    void BattleFrogs::setTextScreenText(std::string message) {
+        textScreen.setText(message);
     }
 }
