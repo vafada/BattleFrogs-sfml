@@ -32,6 +32,18 @@ namespace battlefrogs {
                 }
             }
         }
+
+        {
+            if (!jumpingSoundBuffer.loadFromFile("sounds/AnnaB_Jumping_Up.wav")) {
+                std::cerr << "sounds/AnnaB_Jumping_Up.wav" << std::endl;
+            }
+        }
+
+        {
+            if (!landingSoundBuffer.loadFromFile("sounds/AnnaB_Landing.wav")) {
+                std::cerr << "sounds/AnnaB_Landing.wav" << std::endl;
+            }
+        }
     }
 
     Player::~Player() {
@@ -96,10 +108,11 @@ namespace battlefrogs {
             velocity.x += horizontalSpeed * getWalkingSpeed();
         }
 
-        if (!isJumping && !wasJumping &&
+        if (!isAttacking && !isJumping && !wasJumping &&
             (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))) {
             if (velocity.y == 0) {
-                // SoundManager.getInstance().playSoundEffect(jumping);
+                sound.setBuffer(jumpingSoundBuffer);
+                sound.play();
             }
             velocity.y -= jumpSpeed;
             isJumping = true;
@@ -183,6 +196,11 @@ namespace battlefrogs {
             facing = FACING_RIGHT;
         } else if (velocity.x < 0) {
             facing = FACING_LEFT;
+        }
+
+        if (wasJumping && !isJumping) {
+            sound.setBuffer(landingSoundBuffer);
+            sound.play();
         }
 
         updateAnimation();

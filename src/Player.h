@@ -61,6 +61,8 @@ namespace battlefrogs {
         sf::Sound sound;
         sf::SoundBuffer walkingSoundBuffers[3];
         sf::SoundBuffer attackSoundBuffers[3];
+        sf::SoundBuffer jumpingSoundBuffer;
+        sf::SoundBuffer landingSoundBuffer;
 
         float horizontalSpeed = 8.0f;
         float friction = 0.35f;
