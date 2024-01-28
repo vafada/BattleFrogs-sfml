@@ -14,7 +14,8 @@ namespace battlefrogs {
 
         void move(World *world);
 
-        void render(sf::RenderWindow &renderWindow);
+        void update(World *world, sf::Int32 elapsed) override;
+        void render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) override;
 
     private:
         static const int SPEED = 20;

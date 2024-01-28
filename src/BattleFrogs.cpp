@@ -12,6 +12,8 @@ namespace battlefrogs {
 
     void BattleFrogs::startPlaying() {
         this->playing = true;
+        player = new Player();
+        world.addEntity(player);
     }
 
     void BattleFrogs::update(sf::Int32 duration) {
@@ -19,11 +21,10 @@ namespace battlefrogs {
     }
 
     void BattleFrogs::draw(sf::Int32 elapsed) {
-        camera.setCenter(world.getPlayerXPosition(), 720 / 2);
+        camera.setCenter(player->getPosition().x, 720 / 2);
 
         renderWindow.setView(camera);
         world.render(renderWindow, camera, elapsed);
-        world.renderForeground(renderWindow);
 
         textScreen.render(renderWindow, world.getPlayerXPosition(), elapsed);
     }

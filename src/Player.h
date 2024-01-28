@@ -13,7 +13,7 @@
 namespace battlefrogs {
     class World;
 
-    class Player: public Entity {
+    class Player : public Entity {
     private:
         enum ANIMATION_TYPE {
             ANIMATION_TYPE_RUN,
@@ -22,7 +22,6 @@ namespace battlefrogs {
             ANIMATION_TYPE_WALK,
             ANIMATION_TYPE_ATTACK,
         };
-
 
 
         constexpr static const int ANIMATION_FRAME_RATE[5] = {
@@ -51,7 +50,7 @@ namespace battlefrogs {
         ANIMATION_TYPE animationType = ANIMATION_TYPE_IDLE;
         FACING facing = FACING_LEFT;
         int currentFrame = 0;
-        sf::Int32 currentFrameTime = 0;
+
         sf::Texture texture;
         sf::Sprite sprite;
         sf::Vector2f velocity;
@@ -97,6 +96,7 @@ namespace battlefrogs {
         int getWalkingAnimation();
 
         float getWalkingSpeed();
+
         void playShootingSound();
 
         sf::Vector2f getPosition();

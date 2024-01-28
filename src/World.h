@@ -31,12 +31,12 @@ namespace battlefrogs {
         sf::Texture backgroundTextures[8];
         sf::Sprite backgroundSprites[8];
 
+        std::vector<Entity*> entities;
+
         std::vector<sf::FloatRect> collisions;
         std::vector<ForegroundObject*> foregroundObjects;
         std::vector<Door*> doors;
         std::vector<Missile*> missiles;
-
-        Player player;
 
         void loadCollisions();
 
@@ -60,6 +60,7 @@ namespace battlefrogs {
 
         void addMissile(Missile *missile);
         void removeMissile(Missile *missile);
+        void addEntity(Entity *entity);
     };
 
 }

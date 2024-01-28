@@ -46,11 +46,17 @@ namespace battlefrogs {
             door->render(renderWindow);
         }
 
-        for (const auto &missile: missiles) {
+        /*for (const auto &missile: missiles) {
             missile->render(renderWindow);
+        }*/
+
+        for (const auto &entity: entities) {
+            entity->render(renderWindow, elapsed);
         }
 
-        player.render(renderWindow, elapsed);
+        for (auto &foregroundObject: foregroundObjects) {
+            foregroundObject->render(renderWindow);
+        }
 
 #ifdef DEBUG
         // draw collision boxes
@@ -72,9 +78,7 @@ namespace battlefrogs {
     }
 
     void World::renderForeground(sf::RenderWindow &renderWindow) {
-        for (auto &foregroundObject: foregroundObjects) {
-            foregroundObject->render(renderWindow);
-        }
+
 
 
     }
@@ -141,20 +145,22 @@ namespace battlefrogs {
         for (const auto &door: doors) {
             sf::FloatRect doorCollisionBox = door->getCollisionBox();
             sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200, doorCollisionBox.height);
-            if (expandedBox.intersects(player.getCollisionBox())) {
+            /*if (expandedBox.intersects(player.getCollisionBox())) {
                 battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
-            }
+            }*/
         }
 
         for (const auto &missile: missiles) {
             missile->move(this);
         }
 
-        player.update(this, duration);
+        for (const auto &entity: entities) {
+            entity->update(this, duration);
+        }
     }
 
     float World::getPlayerXPosition() {
-        return player.getPosition().x;
+        //return player.getPosition().x;
     }
 
     void World::addMissile(Missile *missile) {
@@ -163,5 +169,9 @@ namespace battlefrogs {
 
     void World::removeMissile(Missile *missile) {
         missiles.erase(std::remove(missiles.begin(), missiles.end(), missile), missiles.end());
+    }
+
+    void World::addEntity(Entity *entity) {
+        entities.push_back(entity);
     }
 }

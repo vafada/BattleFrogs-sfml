@@ -4,7 +4,7 @@
 #include "World.h"
 
 namespace battlefrogs {
-    Missile::Missile(FACING facing, int startX, int startY): facing(facing) {
+    Missile::Missile(FACING facing, int startX, int startY) : facing(facing) {
         if (!texture.loadFromFile("graphics/missile.png")) {
             std::cerr << "graphics/missile.png" << std::endl;
         }
@@ -39,7 +39,7 @@ namespace battlefrogs {
 
         updateAnimation();
 
-        if (collidedHorizontally){
+        if (collidedHorizontally) {
             //onCollision();
             world->removeMissile(this);
         }
@@ -49,7 +49,11 @@ namespace battlefrogs {
 
     }
 
-    void Missile::render(sf::RenderWindow& renderWindow) {
+    void Missile::update(World *world, sf::Int32 elapsed) {
+
+    }
+
+    void Missile::render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) {
         renderWindow.draw(sprite);
     }
 
