@@ -46,6 +46,10 @@ namespace battlefrogs {
             door->render(renderWindow);
         }
 
+        for (const auto &missile: missiles) {
+            missile->render(renderWindow);
+        }
+
         player.render(renderWindow, elapsed);
 
 #ifdef DEBUG
@@ -141,6 +145,10 @@ namespace battlefrogs {
                 // TODO check if player has weapon;
                 battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
             }
+        }
+
+        for (const auto &missile: missiles) {
+            missile->update();
         }
 
         player.update(this, duration);
