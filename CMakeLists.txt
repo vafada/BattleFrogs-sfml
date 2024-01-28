@@ -24,7 +24,9 @@ add_executable(BattleFrogs-SFML src/main.cpp
         src/TextScreen.cpp
         src/TextScreen.h
         src/Missile.cpp
-        src/Missile.h)
+        src/Missile.h
+        src/Entity.cpp
+        src/Entity.h)
 target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics sfml-audio)
 target_compile_features(BattleFrogs-SFML PRIVATE cxx_std_17)
 

@@ -142,7 +142,6 @@ namespace battlefrogs {
             sf::FloatRect doorCollisionBox = door->getCollisionBox();
             sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200, doorCollisionBox.height);
             if (expandedBox.intersects(player.getCollisionBox())) {
-                // TODO check if player has weapon;
                 battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
             }
         }

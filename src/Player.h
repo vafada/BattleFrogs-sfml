@@ -8,11 +8,12 @@
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Audio/SoundBuffer.hpp"
 #include "SFML/Audio/Sound.hpp"
+#include "Entity.h"
 
 namespace battlefrogs {
     class World;
 
-    class Player {
+    class Player: public Entity {
     private:
         enum ANIMATION_TYPE {
             ANIMATION_TYPE_RUN,
@@ -22,10 +23,7 @@ namespace battlefrogs {
             ANIMATION_TYPE_ATTACK,
         };
 
-        enum FACING {
-            FACING_LEFT,
-            FACING_RIGHT,
-        };
+
 
         constexpr static const int ANIMATION_FRAME_RATE[5] = {
                 83, // run
@@ -63,12 +61,6 @@ namespace battlefrogs {
         sf::SoundBuffer attackSoundBuffers[3];
         sf::SoundBuffer jumpingSoundBuffer;
         sf::SoundBuffer landingSoundBuffer;
-
-        float horizontalSpeed = 8.0f;
-        float friction = 0.35f;
-
-        float gravity = 0.75f;
-        float jumpSpeed = 30.0f * gravity;
 
         long walkingSoundInterval = 750;
         long runningSoundInterval = 200;

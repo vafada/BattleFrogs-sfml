@@ -4,16 +4,16 @@
 #include "World.h"
 
 namespace battlefrogs {
-    Missile::Missile(int facing, int startX, int startY): facing(facing) {
+    Missile::Missile(FACING facing, int startX, int startY): facing(facing) {
         if (!texture.loadFromFile("graphics/missile.png")) {
             std::cerr << "graphics/missile.png" << std::endl;
         }
 
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(facing == 1 ? 0 : 60, 0, facing == 1 ? 60 : -60, 29));
+        sprite.setTextureRect(sf::IntRect(facing == FACING_RIGHT ? 0 : 60, 0, facing == 1 ? 60 : -60, 29));
         sprite.setPosition(startX, startY);
 
-        horizontalSpeed = facing == 1 ? SPEED : -SPEED;
+        horizontalSpeed = facing == FACING_RIGHT ? SPEED : -SPEED;
     }
 
     void Missile::move(World *world) {
