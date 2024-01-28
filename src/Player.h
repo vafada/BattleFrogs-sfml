@@ -114,6 +114,8 @@ namespace battlefrogs {
         void render(sf::RenderWindow &renderWindow, sf::Int32 elapsed);
 
         sf::Rect<float> getCollisionBox();
+
+        bool getHasWeapon();
     };
 
 }

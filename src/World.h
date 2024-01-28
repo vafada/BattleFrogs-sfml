@@ -11,6 +11,7 @@
 #include "ForegroundObject.h"
 #include "Door.h"
 #include "Player.h"
+#include "Missile.h"
 
 
 namespace battlefrogs {
@@ -33,6 +34,7 @@ namespace battlefrogs {
         std::vector<sf::FloatRect> collisions;
         std::vector<ForegroundObject*> foregroundObjects;
         std::vector<Door*> doors;
+        std::vector<Missile*> missiles;
 
         Player player;
 
@@ -40,6 +42,10 @@ namespace battlefrogs {
 
     public:
         static const int FLOOR_LEVEL = 672;
+
+        enum Team {
+            THE_FRENCH, THE_FROG_PIRATES, SYSTEM
+        };
 
         World(sf::Vector2f size);
 
@@ -51,6 +57,8 @@ namespace battlefrogs {
         void update(BattleFrogs *battleFrogs, sf::Int32 duration);
 
         float getPlayerXPosition();
+
+        void addMissile(Missile *missile);
     };
 
 }

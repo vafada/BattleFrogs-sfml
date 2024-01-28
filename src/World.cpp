@@ -139,7 +139,7 @@ namespace battlefrogs {
             sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200, doorCollisionBox.height);
             if (expandedBox.intersects(player.getCollisionBox())) {
                 // TODO check if player has weapon;
-                battleFrogs->setTextScreenText("This door is locked. You need to find the key.");
+                battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
             }
         }
 
@@ -148,5 +148,9 @@ namespace battlefrogs {
 
     float World::getPlayerXPosition() {
         return player.getPosition().x;
+    }
+
+    void World::addMissile(Missile *missile) {
+        missiles.push_back(missile);
     }
 }

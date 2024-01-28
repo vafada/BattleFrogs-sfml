@@ -84,9 +84,9 @@ namespace battlefrogs {
         }
 
         if (isAttacking && !hasAttackHappened && attackDelta >= ATTACK_MISSILE_TIME) {
-            // Missile missile = new Missile(this, playerAttack);
+            Missile *missile = new Missile(facing, sprite.getPosition().x, sprite.getPosition().y);
             playShootingSound();
-            // world.addEntity(missile);
+            world->addMissile(missile);
             hasAttackHappened = true;
         }
 
@@ -210,16 +210,19 @@ namespace battlefrogs {
         if (wasJumping && !isJumping) {
             animationType = isMoving ? static_cast<ANIMATION_TYPE>(getWalkingAnimation()) : ANIMATION_TYPE_IDLE;
             animationReset();
+        } else if (isJumping && velocity.y > 0) {
+            animationType = ANIMATION_TYPE_JUMP;
+            animationReset();
         } else if (isAttacking) {
             animationType = ANIMATION_TYPE_ATTACK;
             if (!wasAttacking) {
                 animationReset();
             }
         } else if (wasMoving && !isMoving) {
-            animationType = ANIMATION_TYPE_IDLE;
+            animationType = isJumping ? ANIMATION_TYPE_JUMP : ANIMATION_TYPE_IDLE;
             animationReset();
         } else if (!wasMoving && isMoving) {
-            animationType = ANIMATION_TYPE_WALK;
+            animationType = static_cast<ANIMATION_TYPE>(getWalkingAnimation());
             animationReset();
         }
     }
@@ -286,4 +289,7 @@ namespace battlefrogs {
         return sf::FloatRect(sprite.getPosition().x, sprite.getPosition().y, WIDTH, HEIGHT);
     }
 
+    bool Player::getHasWeapon() {
+        return hasWeapon;
+    }
 }
