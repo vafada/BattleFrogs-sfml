@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Missile.h"
 #include "SFML/Graphics/RenderWindow.hpp"
+#include "World.h"
 
 namespace battlefrogs {
     Missile::Missile(int facing, int startX, int startY): facing(facing) {
@@ -15,12 +16,8 @@ namespace battlefrogs {
         horizontalSpeed = facing == 1 ? SPEED : -SPEED;
     }
 
-    void Missile::update() {
+    void Missile::move(World *world) {
         velocity.x += horizontalSpeed;
-        move();
-    }
-
-    void Missile::move() {
         velocity.x *= friction;
 
         if (abs(velocity.x) < friction) {
@@ -29,9 +26,23 @@ namespace battlefrogs {
 
         float newX = sprite.getPosition().x + velocity.x;
 
-        sprite.setPosition(newX, sprite.getPosition().y);
+        bool collidedHorizontally = false;
+
+        sf::FloatRect missileBox(newX, sprite.getPosition().y, 60, 20);
+
+        if (!(world->isCollision(missileBox, false))) {
+            sprite.setPosition(newX, sprite.getPosition().y);
+        } else {
+            velocity.x = 0;
+            collidedHorizontally = true;
+        }
 
         updateAnimation();
+
+        if (collidedHorizontally){
+            //onCollision();
+            world->removeMissile(this);
+        }
     }
 
     void Missile::updateAnimation() {

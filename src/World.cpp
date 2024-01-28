@@ -148,7 +148,7 @@ namespace battlefrogs {
         }
 
         for (const auto &missile: missiles) {
-            missile->update();
+            missile->move(this);
         }
 
         player.update(this, duration);
@@ -160,5 +160,9 @@ namespace battlefrogs {
 
     void World::addMissile(Missile *missile) {
         missiles.push_back(missile);
+    }
+
+    void World::removeMissile(Missile *missile) {
+        missiles.erase(std::remove(missiles.begin(), missiles.end(), missile), missiles.end());
     }
 }

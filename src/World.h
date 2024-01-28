@@ -59,6 +59,7 @@ namespace battlefrogs {
         float getPlayerXPosition();
 
         void addMissile(Missile *missile);
+        void removeMissile(Missile *missile);
     };
 
 }

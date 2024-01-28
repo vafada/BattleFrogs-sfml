@@ -6,14 +6,12 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 
 namespace battlefrogs {
-
+    class World;
     class Missile {
     public:
         Missile(int facing, int startX, int startY);
 
-        void update();
-
-        void move();
+        void move(World *world);
 
         void render(sf::RenderWindow &renderWindow);
 
