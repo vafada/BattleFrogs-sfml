@@ -5,8 +5,9 @@
 #include "BattleFrogs.h"
 
 namespace battlefrogs {
-    World::World(sf::Vector2f size) : size(size), collisions(39)  {
+    World::World(sf::Vector2f size) : size(size), collisions(39) {
         entities.reserve(100);
+        obstacles.reserve(10);
         if (!starBackground.loadFromFile("graphics/starbackground.png")) {
             std::cerr << "Error loading: graphics/starbackground.png" << std::endl;
         }
@@ -24,12 +25,14 @@ namespace battlefrogs {
         loadCollisions();
 
         // add doors
-        this->doors.push_back(
-                new Door("graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720, sf::FloatRect(6130, 400, 120, 320)));
-        this->doors.push_back(new Door("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720,
-                                       sf::FloatRect(11375, 400, 120, 320)));
-        this->doors.push_back(
-                new Door("graphics/Reactor_door_Intact.png", 2135, 0, 502, 720, sf::FloatRect(2135, 400, 120, 320)));
+        addEntity(
+                new Door(this, "graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720,
+                         sf::FloatRect(6130, 400, 120, 320)));
+        addEntity(new Door(this, "graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720,
+                           sf::FloatRect(11375, 400, 120, 320)));
+        addEntity(
+                new Door(this, "graphics/Reactor_door_Intact.png", 2135, 0, 502, 720,
+                         sf::FloatRect(2135, 400, 120, 320)));
 
 
         addForegroundObjects();
@@ -46,9 +49,6 @@ namespace battlefrogs {
             bgx += BACKGROUND_WIDTHS[i];
         }
 
-        for (const auto &door: doors) {
-            door->render(renderWindow);
-        }
         for (const auto &entity: entities) {
             entity->render(renderWindow, elapsed);
         }
@@ -66,13 +66,13 @@ namespace battlefrogs {
             renderWindow.draw(rectBoxUI);
         }
 
-        for (const auto &door: doors) {
+        /*for (const auto &door: doors) {
             sf::FloatRect collisionBox = door->getCollisionBox();
             sf::RectangleShape rectBoxUI(sf::Vector2f(collisionBox.width, collisionBox.height));
             rectBoxUI.setPosition(collisionBox.left, collisionBox.top);
             rectBoxUI.setFillColor(sf::Color::Magenta);
             renderWindow.draw(rectBoxUI);
-        }
+        }*/
 #endif // DEBUG
     }
 
@@ -87,8 +87,8 @@ namespace battlefrogs {
             }
         }
 
-        for (const auto &door: doors) {
-            if (door->intersects(entityHitbox)) {
+        for (const auto &obstacle: obstacles) {
+            if (entityHitbox.intersects(obstacle->getCollisionHitbox())) {
                 return true;
             }
         }
@@ -135,14 +135,14 @@ namespace battlefrogs {
     }
 
     void World::update(BattleFrogs *battleFrogs, sf::Int32 duration) {
-        for (const auto &door: doors) {
+        /*for (const auto &door: doors) {
             sf::FloatRect doorCollisionBox = door->getCollisionBox();
             sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200,
                                       doorCollisionBox.height);
-            /*if (expandedBox.intersects(player.getCollisionBox())) {
+            if (expandedBox.intersects(player.getCollisionBox())) {
                 battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
-            }*/
-        }
+            }
+        }*/
 
         for (Entity *entity: entities) {
             entity->update(this, duration);
@@ -155,5 +155,13 @@ namespace battlefrogs {
 
     void World::addEntity(Entity *entity) {
         entities.push_back(entity);
+    }
+
+    void World::addObstacle(battlefrogs::Obstacle *obstacle) {
+        obstacles.push_back(obstacle);
+    }
+
+    void World::removeObstacle(battlefrogs::Obstacle *obstacle) {
+        obstacles.erase(std::remove(obstacles.begin(), obstacles.end(), obstacle), obstacles.end());
     }
 }

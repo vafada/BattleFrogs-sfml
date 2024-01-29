@@ -4,19 +4,21 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/Texture.hpp"
+#include "Obstacle.h"
 
 namespace battlefrogs {
 
-    class Door {
+    class Door: public Obstacle {
     private:
         sf::Texture texture;
         sf::Sprite sprite;
         sf::FloatRect collisionBox;
 
     public:
-        Door(std::string imagePath, int x, int y, int width, int height, sf::FloatRect collisionBox);
+        Door(World *world, std::string imagePath, int x, int y, int width, int height, sf::FloatRect collisionBox);
 
-        void render(sf::RenderWindow& renderWindow);
+        void update(World *world, sf::Int32 elapsed) override;
+        void render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) override;
 
         bool intersects(sf::FloatRect anotherBox);
 

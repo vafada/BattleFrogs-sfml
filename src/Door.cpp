@@ -2,7 +2,7 @@
 #include "Door.h"
 
 namespace battlefrogs {
-    Door::Door(std::string imagePath, int x, int y, int width, int height, sf::FloatRect collisionBox) {
+    Door::Door(World *world, std::string imagePath, int x, int y, int width, int height, sf::FloatRect collisionBox): Obstacle(world, collisionBox) {
         if (!texture.loadFromFile(imagePath)) {
             std::cerr << imagePath << std::endl;
         }
@@ -10,11 +10,13 @@ namespace battlefrogs {
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, width, height));
         sprite.setPosition(x, y);
-
-        this->collisionBox = collisionBox;
     }
 
-    void Door::render(sf::RenderWindow& renderWindow) {
+    void Door::update(World *world, sf::Int32 elapsed) {
+
+    }
+
+    void Door::render(sf::RenderWindow& renderWindow,  sf::Int32 elapsed) {
         renderWindow.draw(sprite);
     }
 

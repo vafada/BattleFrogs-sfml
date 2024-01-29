@@ -12,7 +12,7 @@
 #include "Door.h"
 #include "Player.h"
 #include "Missile.h"
-
+#include "Obstacle.h"
 
 namespace battlefrogs {
     class BattleFrogs;
@@ -35,8 +35,7 @@ namespace battlefrogs {
 
         std::vector<sf::FloatRect> collisions;
         std::vector<ForegroundObject*> foregroundObjects;
-        std::vector<Door*> doors;
-        //std::vector<Missile*> missiles;
+        std::vector<Obstacle*> obstacles;
 
         void loadCollisions();
 
@@ -57,6 +56,9 @@ namespace battlefrogs {
 
         void removeEntity(Entity *entity);
         void addEntity(Entity *entity);
+
+        void addObstacle(Obstacle *obstacle);
+        void removeObstacle(Obstacle *obstacle);
     };
 
 }
