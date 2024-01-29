@@ -11,7 +11,7 @@ namespace battlefrogs {
         Obstacle(World *world, sf::FloatRect collisionBox);
         sf::FloatRect getCollisionHitbox();
 
-    private:
+    protected:
         sf::FloatRect collisionBox;
     };
 

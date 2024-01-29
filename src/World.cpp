@@ -66,13 +66,14 @@ namespace battlefrogs {
             renderWindow.draw(rectBoxUI);
         }
 
-        /*for (const auto &door: doors) {
-            sf::FloatRect collisionBox = door->getCollisionBox();
+
+        for (const auto &obstacle: obstacles) {
+            sf::FloatRect collisionBox = obstacle->getCollisionHitbox();
             sf::RectangleShape rectBoxUI(sf::Vector2f(collisionBox.width, collisionBox.height));
             rectBoxUI.setPosition(collisionBox.left, collisionBox.top);
             rectBoxUI.setFillColor(sf::Color::Magenta);
             renderWindow.draw(rectBoxUI);
-        }*/
+        }
 #endif // DEBUG
     }
 
@@ -135,15 +136,6 @@ namespace battlefrogs {
     }
 
     void World::update(BattleFrogs *battleFrogs, sf::Int32 duration) {
-        /*for (const auto &door: doors) {
-            sf::FloatRect doorCollisionBox = door->getCollisionBox();
-            sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200,
-                                      doorCollisionBox.height);
-            if (expandedBox.intersects(player.getCollisionBox())) {
-                battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
-            }
-        }*/
-
         for (Entity *entity: entities) {
             entity->update(this, duration);
         }
@@ -163,5 +155,15 @@ namespace battlefrogs {
 
     void World::removeObstacle(battlefrogs::Obstacle *obstacle) {
         obstacles.erase(std::remove(obstacles.begin(), obstacles.end(), obstacle), obstacles.end());
+    }
+
+    Player *World::getPlayer() {
+        for (Entity *entity: entities) {
+            if (Player *player = dynamic_cast<Player *>(entity)) {
+                return player;
+            }
+        }
+
+        return nullptr;
     }
 }

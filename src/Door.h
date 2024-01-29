@@ -12,7 +12,6 @@ namespace battlefrogs {
     private:
         sf::Texture texture;
         sf::Sprite sprite;
-        sf::FloatRect collisionBox;
 
     public:
         Door(World *world, std::string imagePath, int x, int y, int width, int height, sf::FloatRect collisionBox);

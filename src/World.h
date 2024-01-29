@@ -31,11 +31,11 @@ namespace battlefrogs {
         sf::Texture backgroundTextures[8];
         sf::Sprite backgroundSprites[8];
 
-        std::vector<Entity*> entities;
+        std::vector<Entity *> entities;
 
         std::vector<sf::FloatRect> collisions;
-        std::vector<ForegroundObject*> foregroundObjects;
-        std::vector<Obstacle*> obstacles;
+        std::vector<ForegroundObject *> foregroundObjects;
+        std::vector<Obstacle *> obstacles;
 
         void loadCollisions();
 
@@ -48,17 +48,23 @@ namespace battlefrogs {
 
         World(sf::Vector2f size);
 
-        void render(sf::RenderWindow& renderWindow, sf::View& camera, sf::Int32 elapsed);
-        bool isCollision(sf::FloatRect& entityHitbox, bool forGravity);
+        void render(sf::RenderWindow &renderWindow, sf::View &camera, sf::Int32 elapsed);
+
+        bool isCollision(sf::FloatRect &entityHitbox, bool forGravity);
+
         void addForegroundObjects();
 
         void update(BattleFrogs *battleFrogs, sf::Int32 duration);
 
         void removeEntity(Entity *entity);
+
         void addEntity(Entity *entity);
 
         void addObstacle(Obstacle *obstacle);
+
         void removeObstacle(Obstacle *obstacle);
+
+        Player* getPlayer();
     };
 
 }
