@@ -5,7 +5,8 @@
 #include "BattleFrogs.h"
 
 namespace battlefrogs {
-    World::World(sf::Vector2f size) : size(size), collisions(39) {
+    World::World(sf::Vector2f size) : size(size), collisions(39)  {
+        entities.reserve(100);
         if (!starBackground.loadFromFile("graphics/starbackground.png")) {
             std::cerr << "Error loading: graphics/starbackground.png" << std::endl;
         }
@@ -23,9 +24,12 @@ namespace battlefrogs {
         loadCollisions();
 
         // add doors
-        this->doors.push_back(new Door("graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720, sf::FloatRect(6130, 400, 120, 320)));
-        this->doors.push_back(new Door("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720, sf::FloatRect(11375, 400, 120, 320)));
-        this->doors.push_back(new Door("graphics/Reactor_door_Intact.png", 2135, 0, 502, 720, sf::FloatRect(2135, 400, 120, 320)));
+        this->doors.push_back(
+                new Door("graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720, sf::FloatRect(6130, 400, 120, 320)));
+        this->doors.push_back(new Door("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720,
+                                       sf::FloatRect(11375, 400, 120, 320)));
+        this->doors.push_back(
+                new Door("graphics/Reactor_door_Intact.png", 2135, 0, 502, 720, sf::FloatRect(2135, 400, 120, 320)));
 
 
         addForegroundObjects();
@@ -45,11 +49,6 @@ namespace battlefrogs {
         for (const auto &door: doors) {
             door->render(renderWindow);
         }
-
-        /*for (const auto &missile: missiles) {
-            missile->render(renderWindow);
-        }*/
-
         for (const auto &entity: entities) {
             entity->render(renderWindow, elapsed);
         }
@@ -60,7 +59,7 @@ namespace battlefrogs {
 
 #ifdef DEBUG
         // draw collision boxes
-        for (auto& collisionBox : collisions) {
+        for (auto &collisionBox: collisions) {
             sf::RectangleShape rectBoxUI(sf::Vector2f(collisionBox.width, collisionBox.height));
             rectBoxUI.setPosition(collisionBox.left, collisionBox.top);
             rectBoxUI.setFillColor(sf::Color::Magenta);
@@ -77,14 +76,8 @@ namespace battlefrogs {
 #endif // DEBUG
     }
 
-    void World::renderForeground(sf::RenderWindow &renderWindow) {
-
-
-
-    }
-
-    bool World::isCollision(sf::FloatRect& entityHitbox, bool forGravity) {
-        for (auto& collisionBox : collisions) {
+    bool World::isCollision(sf::FloatRect &entityHitbox, bool forGravity) {
+        for (auto &collisionBox: collisions) {
             if (collisionBox.height == 2 && !forGravity) {
                 continue;
             }
@@ -144,31 +137,20 @@ namespace battlefrogs {
     void World::update(BattleFrogs *battleFrogs, sf::Int32 duration) {
         for (const auto &door: doors) {
             sf::FloatRect doorCollisionBox = door->getCollisionBox();
-            sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200, doorCollisionBox.height);
+            sf::FloatRect expandedBox(doorCollisionBox.left - 100, doorCollisionBox.top, doorCollisionBox.width + 200,
+                                      doorCollisionBox.height);
             /*if (expandedBox.intersects(player.getCollisionBox())) {
                 battleFrogs->setTextScreenText(player.getHasWeapon() ? "This door is locked. Blow it up!" : "This door is locked. You need to find the key.");
             }*/
         }
 
-        for (const auto &missile: missiles) {
-            missile->move(this);
-        }
-
-        for (const auto &entity: entities) {
+        for (Entity *entity: entities) {
             entity->update(this, duration);
         }
     }
 
-    float World::getPlayerXPosition() {
-        //return player.getPosition().x;
-    }
-
-    void World::addMissile(Missile *missile) {
-        missiles.push_back(missile);
-    }
-
-    void World::removeMissile(Missile *missile) {
-        missiles.erase(std::remove(missiles.begin(), missiles.end(), missile), missiles.end());
+    void World::removeEntity(Entity *entity) {
+        entities.erase(std::remove(entities.begin(), entities.end(), entity), entities.end());
     }
 
     void World::addEntity(Entity *entity) {

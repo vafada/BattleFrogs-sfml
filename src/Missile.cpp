@@ -41,7 +41,7 @@ namespace battlefrogs {
 
         if (collidedHorizontally) {
             //onCollision();
-            world->removeMissile(this);
+            world->removeEntity( this);
         }
     }
 
@@ -50,7 +50,7 @@ namespace battlefrogs {
     }
 
     void Missile::update(World *world, sf::Int32 elapsed) {
-
+        this->move(world);
     }
 
     void Missile::render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) {

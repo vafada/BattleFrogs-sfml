@@ -26,7 +26,7 @@ namespace battlefrogs {
         renderWindow.setView(camera);
         world.render(renderWindow, camera, elapsed);
 
-        textScreen.render(renderWindow, world.getPlayerXPosition(), elapsed);
+        textScreen.render(renderWindow, player->getPosition().x, elapsed);
     }
 
     void BattleFrogs::setTextScreenText(std::string message) {

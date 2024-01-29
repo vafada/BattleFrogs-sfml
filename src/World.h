@@ -36,7 +36,7 @@ namespace battlefrogs {
         std::vector<sf::FloatRect> collisions;
         std::vector<ForegroundObject*> foregroundObjects;
         std::vector<Door*> doors;
-        std::vector<Missile*> missiles;
+        //std::vector<Missile*> missiles;
 
         void loadCollisions();
 
@@ -50,16 +50,12 @@ namespace battlefrogs {
         World(sf::Vector2f size);
 
         void render(sf::RenderWindow& renderWindow, sf::View& camera, sf::Int32 elapsed);
-        void renderForeground(sf::RenderWindow& renderWindow);
         bool isCollision(sf::FloatRect& entityHitbox, bool forGravity);
         void addForegroundObjects();
 
         void update(BattleFrogs *battleFrogs, sf::Int32 duration);
 
-        float getPlayerXPosition();
-
-        void addMissile(Missile *missile);
-        void removeMissile(Missile *missile);
+        void removeEntity(Entity *entity);
         void addEntity(Entity *entity);
     };
 

@@ -85,9 +85,9 @@ namespace battlefrogs {
 
         if (isAttacking && !hasAttackHappened && attackDelta >= ATTACK_MISSILE_TIME) {
             int startX = facing == FACING_RIGHT ? sprite.getPosition().x + WIDTH - 10 : sprite.getPosition().x;
-            Missile *missile = new Missile(facing, startX, sprite.getPosition().y + (HEIGHT / 2) - 23);
+            Entity *missile = new Missile(facing, startX, sprite.getPosition().y + (HEIGHT / 2) - 23);
             playShootingSound();
-            world->addMissile(missile);
+            world->addEntity(missile);
             hasAttackHappened = true;
         }
 
