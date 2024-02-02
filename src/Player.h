@@ -98,7 +98,6 @@ namespace battlefrogs {
 
         void playShootingSound();
 
-        sf::Vector2f getPosition();
 
         void update(World *world, sf::Int32 duration);
 

@@ -21,12 +21,12 @@ namespace battlefrogs {
     }
 
     void BattleFrogs::draw(sf::Int32 elapsed) {
-        camera.setCenter(player->getPosition().x, 720 / 2);
+        camera.setCenter(player->getPosition().left, 720 / 2);
 
         renderWindow.setView(camera);
         world.render(renderWindow, camera, elapsed);
 
-        textScreen.render(renderWindow, player->getPosition().x, elapsed);
+        textScreen.render(renderWindow, player->getPosition().left, elapsed);
     }
 
     void BattleFrogs::setTextScreenText(std::string message) {

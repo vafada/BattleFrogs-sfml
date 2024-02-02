@@ -15,9 +15,10 @@ namespace battlefrogs {
         position.left = battlefrogs::Player::STARTING_X;
         position.top = 672 - HEIGHT;
 
+        std::cout << "position.left...1111 = " << position.left << std::endl;
+
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
-        sprite.setPosition(battlefrogs::Player::STARTING_X, 672 - HEIGHT);
 
         for (int i = 0; i < 3; i++) {
             {
@@ -55,10 +56,6 @@ namespace battlefrogs {
 
     int Player::getWalkingAnimation() {
         return hasWeapon ? ANIMATION_TYPE_RUN : ANIMATION_TYPE_WALK;
-    }
-
-    sf::Vector2f Player::getPosition() {
-        return sprite.getPosition();
     }
 
     float Player::getWalkingSpeed() {
@@ -141,8 +138,8 @@ namespace battlefrogs {
             velocity.y = 0;
         }
 
-        float newX = sprite.getPosition().x + velocity.x;
-        float newY = sprite.getPosition().y + velocity.y;
+        float newX = position.left + velocity.x;
+        float newY = position.top + velocity.y;
 
         if (newY > (672 - HEIGHT)) {
             newY = 672 - HEIGHT;
@@ -154,11 +151,9 @@ namespace battlefrogs {
 
 
         {
-            sf::FloatRect playerBox(newX, sprite.getPosition().y, WIDTH, HEIGHT);
+            sf::FloatRect playerBox(newX, position.top, WIDTH, HEIGHT);
 
             if (!(world->isCollision(this, playerBox, false))) {
-                // TODO
-                sprite.setPosition(newX, sprite.getPosition().y);
                 position.left = newX;
             } else {
                 velocity.x = 0;
@@ -168,17 +163,15 @@ namespace battlefrogs {
 
         {
             if (velocity.y < 0) {
-                sf::FloatRect playerBox(sprite.getPosition().x, newY, WIDTH, HEIGHT);
+                sf::FloatRect playerBox(position.left, newY, WIDTH, HEIGHT);
 
                 if (!(world->isCollision(this, playerBox, false))) {
-                    // TODO
-                    sprite.setPosition(sprite.getPosition().x, newY);
                     position.top = newY;
                 } else {
                     collidedVertically = true;
                 }
             } else {
-                sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH,
+                sf::FloatRect playerBox(position.left, newY + HEIGHT, WIDTH,
                                         (velocity.y > gravity ? velocity.y : gravity));
 
                 if (world->isCollision(this, playerBox, true)) {
@@ -186,8 +179,6 @@ namespace battlefrogs {
                     collidedVertically = true;
                     onFloor = true;
                 } else {
-                    // TODO
-                    sprite.setPosition(sprite.getPosition().x, newY + 1);
                     position.top = newY + 1;
                 }
             }
@@ -197,7 +188,7 @@ namespace battlefrogs {
 
         wasJumping = isJumping;
         wasMoving = isMoving;
-        isJumping = (sprite.getPosition().y < 672 - HEIGHT) && !onFloor;
+        isJumping = (position.top < 672 - HEIGHT) && !onFloor;
 
         isMoving = abs(velocity.x) > 0;
 
@@ -248,6 +239,7 @@ namespace battlefrogs {
         int width = animationType == ANIMATION_TYPE_ATTACK ? ATTACK_WIDTH : WIDTH;
         int facingXAdd = facing == FACING_LEFT ? 0 : width;
 
+        sprite.setPosition(position.left, position.top);
 
         // std::cout << "player frame total elapsed = " << currentFrameTime << std::endl;
 
@@ -295,7 +287,7 @@ namespace battlefrogs {
     }
 
     sf::Rect<float> Player::getCollisionBox() {
-        return sf::FloatRect(sprite.getPosition().x, sprite.getPosition().y, WIDTH, HEIGHT);
+        return sf::FloatRect(position.left, position.top, WIDTH, HEIGHT);
     }
 
     bool Player::getHasWeapon() {
