@@ -4,15 +4,13 @@
 #include "World.h"
 
 namespace battlefrogs {
-    Missile::Missile(Entity *origin) : Projectile(origin, RANGE, DAMAGE) {
+    Missile::Missile(Entity *origin) : Projectile(origin, 60, 20, RANGE, DAMAGE) {
         this->world = origin->getWorld();
         if (!texture.loadFromFile("graphics/missile.png")) {
             std::cerr << "graphics/missile.png" << std::endl;
         }
 
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(facing == FACING_RIGHT ? 0 : 60, 0, facing == 1 ? 60 : -60, 29));
-        //sprite.setPosition(startX, startY);
 
         horizontalSpeed = facing == FACING_RIGHT ? SPEED : -SPEED;
     }
@@ -57,6 +55,7 @@ namespace battlefrogs {
 
     void Missile::render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) {
         //std::cout << "in missle render  = " << position.left <<  std::endl;
+        sprite.setTextureRect(sf::IntRect(facing == FACING_RIGHT ? 0 : 60, 0, facing == FACING_RIGHT ? 60 : -60, 29));
         sprite.setPosition(position.left, position.top);
         renderWindow.draw(sprite);
     }

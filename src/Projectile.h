@@ -12,7 +12,7 @@ namespace battlefrogs {
 
         sf::Vector2f getProjectilePoint(Entity *entity);
     public:
-        Projectile(Entity *origin, float range, int damage);
+        Projectile(Entity *origin, int width, int height, float range, int damage);
         void update(World *world, sf::Int32 elapsed) override;
     };
 

@@ -2,13 +2,15 @@
 #include "Projectile.h"
 
 namespace battlefrogs {
-    Projectile::Projectile(Entity *origin, float range, int damage) {
+    Projectile::Projectile(Entity *origin, int width, int height, float range, int damage) {
         this->startingPoint = this->getProjectilePoint(origin);
 
         std::cout << "this->startingPoint.x = " << this->startingPoint.x << std::endl;
 
         position.left = this->startingPoint.x;
         position.top = this->startingPoint.y;
+        position.width = width;
+        position.height = height;
 
         this->range = range;
         this->damage = damage;
@@ -53,12 +55,11 @@ namespace battlefrogs {
                 return;
             }
         }
-
-        if ((facing == FACING_RIGHT) && (position.getMinX() >= (startingPoint.getX() + range))) {
+    */
+        if ((facing == FACING_RIGHT) && (position.left >= (startingPoint.x + range))) {
             die();
-        } else if ((facing == FACING_LEFT) && (position.getMaxX() <= (startingPoint.getX() - range))) {
+        } else if ((facing == FACING_LEFT) && ((position.left + position.width) <= (startingPoint.x - range))) {
             die();
         }
-         */
     }
 } // battlefrogs

@@ -104,4 +104,8 @@ namespace battlefrogs {
         return position;
     }
 
+    void Entity::die() {
+        world->removeEntity(this);
+    }
+
 } // battlefrogs
