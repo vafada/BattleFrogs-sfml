@@ -26,6 +26,7 @@ namespace battlefrogs {
             //std::cout << "here" << player << std::endl;
             if (expandedBox.intersects(player->getCollisionBox())) {
                 std::cout << "collision with door" << std::endl;
+                // TODO
                 /*battleFrogs->setTextScreenText(player->getHasWeapon() ? "This door is locked. Blow it up!"
                                                                       : "This door is locked. You need to find the key.");*/
             }

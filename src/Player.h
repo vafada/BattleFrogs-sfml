@@ -89,7 +89,7 @@ namespace battlefrogs {
         void playWalkingSound();
 
     public:
-        Player();
+        Player(World *world);
 
         ~Player();
 

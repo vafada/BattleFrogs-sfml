@@ -5,7 +5,8 @@
 #include "BattleFrogs.h"
 
 namespace battlefrogs {
-    World::World(sf::Vector2f size) : size(size), collisions(39) {
+    World::World(sf::Vector2f size) : size(size) {
+        collisions.reserve(50);
         entities.reserve(100);
         obstacles.reserve(10);
         if (!starBackground.loadFromFile("graphics/starbackground.png")) {
@@ -77,7 +78,7 @@ namespace battlefrogs {
 #endif // DEBUG
     }
 
-    bool World::isCollision(sf::FloatRect &entityHitbox, bool forGravity) {
+    bool World::isCollision(Entity *entity, sf::FloatRect entityHitbox, bool forGravity) {
         for (auto &collisionBox: collisions) {
             if (collisionBox.height == 2 && !forGravity) {
                 continue;

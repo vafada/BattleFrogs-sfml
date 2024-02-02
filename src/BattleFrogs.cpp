@@ -12,7 +12,7 @@ namespace battlefrogs {
 
     void BattleFrogs::startPlaying() {
         this->playing = true;
-        player = new Player();
+        player = new Player(&world);
         world.addEntity(player);
     }
 

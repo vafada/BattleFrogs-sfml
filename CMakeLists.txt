@@ -28,7 +28,9 @@ add_executable(BattleFrogs-SFML src/main.cpp
         src/Entity.cpp
         src/Entity.h
         src/Obstacle.cpp
-        src/Obstacle.h)
+        src/Obstacle.h
+        src/Projectile.cpp
+        src/Projectile.h)
 target_link_libraries(BattleFrogs-SFML PRIVATE sfml-graphics sfml-audio)
 target_compile_features(BattleFrogs-SFML PRIVATE cxx_std_17)
 

@@ -50,7 +50,7 @@ namespace battlefrogs {
 
         void render(sf::RenderWindow &renderWindow, sf::View &camera, sf::Int32 elapsed);
 
-        bool isCollision(sf::FloatRect &entityHitbox, bool forGravity);
+        bool isCollision(Entity *entity, sf::FloatRect entityHitbox, bool forGravity);
 
         void addForegroundObjects();
 

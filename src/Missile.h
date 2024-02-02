@@ -4,13 +4,13 @@
 #include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
-#include "Entity.h"
+#include "Projectile.h"
 
 namespace battlefrogs {
     class World;
-    class Missile: public Entity {
+    class Missile: public Projectile {
     public:
-        Missile(FACING facing, int startX, int startY);
+        Missile(Entity *origin);
 
         void move(World *world);
 
@@ -23,7 +23,6 @@ namespace battlefrogs {
         sf::Texture texture;
         sf::Sprite sprite;
         float horizontalSpeed = 0;
-        sf::Vector2f velocity;
         float friction = 0.35f;
 
         void updateAnimation();

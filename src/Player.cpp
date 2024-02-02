@@ -4,13 +4,16 @@
 #include "Player.h"
 #include "World.h"
 #include "SFML/Window/Keyboard.hpp"
-#include "SFML/Audio/Sound.hpp"
 
 namespace battlefrogs {
-    Player::Player() {
+    Player::Player(World *world) {
+        this->world = world;
         if (!texture.loadFromFile("graphics/player.png")) {
             std::cerr << "Error loading: graphics/player.png" << std::endl;
         }
+
+        position.left = battlefrogs::Player::STARTING_X;
+        position.top = 672 - HEIGHT;
 
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
@@ -84,8 +87,7 @@ namespace battlefrogs {
         }
 
         if (isAttacking && !hasAttackHappened && attackDelta >= ATTACK_MISSILE_TIME) {
-            int startX = facing == FACING_RIGHT ? sprite.getPosition().x + WIDTH - 10 : sprite.getPosition().x;
-            Entity *missile = new Missile(facing, startX, sprite.getPosition().y + (HEIGHT / 2) - 23);
+            Entity *missile = new Missile(this);
             playShootingSound();
             world->addEntity(missile);
             hasAttackHappened = true;
@@ -154,7 +156,7 @@ namespace battlefrogs {
         {
             sf::FloatRect playerBox(newX, sprite.getPosition().y, WIDTH, HEIGHT);
 
-            if (!(world->isCollision(playerBox, false))) {
+            if (!(world->isCollision(this, playerBox, false))) {
                 sprite.setPosition(newX, sprite.getPosition().y);
             } else {
                 velocity.x = 0;
@@ -166,7 +168,7 @@ namespace battlefrogs {
             if (velocity.y < 0) {
                 sf::FloatRect playerBox(sprite.getPosition().x, newY, WIDTH, HEIGHT);
 
-                if (!(world->isCollision(playerBox, false))) {
+                if (!(world->isCollision(this, playerBox, false))) {
                     sprite.setPosition(sprite.getPosition().x, newY);
                 } else {
                     collidedVertically = true;
@@ -175,7 +177,7 @@ namespace battlefrogs {
                 sf::FloatRect playerBox(sprite.getPosition().x, newY + HEIGHT, WIDTH,
                                         (velocity.y > gravity ? velocity.y : gravity));
 
-                if (world->isCollision(playerBox, true)) {
+                if (world->isCollision(this, playerBox, true)) {
                     velocity.y = 0;
                     collidedVertically = true;
                     onFloor = true;
