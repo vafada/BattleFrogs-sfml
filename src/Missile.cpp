@@ -4,7 +4,7 @@
 #include "World.h"
 
 namespace battlefrogs {
-    Missile::Missile(Entity *origin) : Projectile(origin), facing(origin->getFacing()) {
+    Missile::Missile(Entity *origin) : Projectile(origin, RANGE, DAMAGE) {
         this->world = origin->getWorld();
         if (!texture.loadFromFile("graphics/missile.png")) {
             std::cerr << "graphics/missile.png" << std::endl;
@@ -56,7 +56,7 @@ namespace battlefrogs {
     }
 
     void Missile::render(sf::RenderWindow &renderWindow, sf::Int32 elapsed) {
-        std::cout << "in missle render  = " << position.left <<  std::endl;
+        //std::cout << "in missle render  = " << position.left <<  std::endl;
         sprite.setPosition(position.left, position.top);
         renderWindow.draw(sprite);
     }

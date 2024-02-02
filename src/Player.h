@@ -48,7 +48,6 @@ namespace battlefrogs {
         static const int ATTACK_MISSILE_TIME = ANIMATION_FRAME_RATE[ANIMATION_TYPE_ATTACK] * 3;
 
         ANIMATION_TYPE animationType = ANIMATION_TYPE_IDLE;
-        FACING facing = FACING_LEFT;
         int currentFrame = 0;
 
         sf::Texture texture;

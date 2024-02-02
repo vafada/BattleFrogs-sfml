@@ -2,12 +2,18 @@
 #include "Projectile.h"
 
 namespace battlefrogs {
-    Projectile::Projectile(Entity *origin) {
+    Projectile::Projectile(Entity *origin, float range, int damage) {
         this->startingPoint = this->getProjectilePoint(origin);
+
+        std::cout << "this->startingPoint.x = " << this->startingPoint.x << std::endl;
+
         position.left = this->startingPoint.x;
         position.top = this->startingPoint.y;
 
-        std::cout << "position.left = " << position.left << std::endl;
+        this->range = range;
+        this->damage = damage;
+
+        this->facing = origin->getFacing();
     }
 
     sf::Vector2f Projectile::getProjectilePoint(Entity *entity) {

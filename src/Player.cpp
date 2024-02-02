@@ -157,7 +157,9 @@ namespace battlefrogs {
             sf::FloatRect playerBox(newX, sprite.getPosition().y, WIDTH, HEIGHT);
 
             if (!(world->isCollision(this, playerBox, false))) {
+                // TODO
                 sprite.setPosition(newX, sprite.getPosition().y);
+                position.left = newX;
             } else {
                 velocity.x = 0;
                 collidedHorizontally = true;
@@ -169,7 +171,9 @@ namespace battlefrogs {
                 sf::FloatRect playerBox(sprite.getPosition().x, newY, WIDTH, HEIGHT);
 
                 if (!(world->isCollision(this, playerBox, false))) {
+                    // TODO
                     sprite.setPosition(sprite.getPosition().x, newY);
+                    position.top = newY;
                 } else {
                     collidedVertically = true;
                 }
@@ -182,7 +186,9 @@ namespace battlefrogs {
                     collidedVertically = true;
                     onFloor = true;
                 } else {
+                    // TODO
                     sprite.setPosition(sprite.getPosition().x, newY + 1);
+                    position.top = newY + 1;
                 }
             }
 
