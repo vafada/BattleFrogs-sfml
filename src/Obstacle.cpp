@@ -11,4 +11,9 @@ namespace battlefrogs {
     sf::FloatRect Obstacle::getCollisionHitbox() {
         return collisionBox;
     }
+
+    void Obstacle::die() {
+        Entity::die();
+        this->world->removeObstacle(this);
+    }
 } // battlefrogs

@@ -67,7 +67,7 @@ namespace battlefrogs {
 
         sf::FloatRect getCollisionHitbox(sf::Rect<float> position);
 
-        void die();
+        virtual void die();
 
     };
 

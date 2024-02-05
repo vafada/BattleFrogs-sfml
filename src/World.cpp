@@ -72,7 +72,7 @@ namespace battlefrogs {
             sf::FloatRect collisionBox = obstacle->getCollisionHitbox();
             sf::RectangleShape rectBoxUI(sf::Vector2f(collisionBox.width, collisionBox.height));
             rectBoxUI.setPosition(collisionBox.left, collisionBox.top);
-            rectBoxUI.setFillColor(sf::Color::Magenta);
+            rectBoxUI.setFillColor(sf::Color::Green);
             renderWindow.draw(rectBoxUI);
         }
 #endif // DEBUG

@@ -13,6 +13,7 @@ namespace battlefrogs {
 
     protected:
         sf::FloatRect collisionBox;
+        void die();
     };
 
 } // battlefrogs
