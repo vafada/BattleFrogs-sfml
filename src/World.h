@@ -42,10 +42,6 @@ namespace battlefrogs {
     public:
         static const int FLOOR_LEVEL = 672;
 
-        enum Team {
-            THE_FRENCH, THE_FROG_PIRATES, SYSTEM
-        };
-
         World(sf::Vector2f size);
 
         void render(sf::RenderWindow &renderWindow, sf::View &camera, sf::Int32 elapsed);
@@ -65,6 +61,8 @@ namespace battlefrogs {
         void removeObstacle(Obstacle *obstacle);
 
         Player* getPlayer();
+
+        std::vector<Entity *> getCollidingEntities(Entity *entity);
     };
 
 }

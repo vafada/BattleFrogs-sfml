@@ -24,11 +24,6 @@ namespace battlefrogs {
     private:
         sf::Texture texture;
         sf::Sprite sprite;
-        float friction = 0.35f;
-
-        void updateAnimation();
-
-
     };
 
 } // battlefrogs

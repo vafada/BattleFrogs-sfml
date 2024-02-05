@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Entity.h"
 #include "World.h"
 
@@ -106,6 +107,37 @@ namespace battlefrogs {
 
     void Entity::die() {
         world->removeEntity(this);
+    }
+
+    bool Entity::ignoreCollision() {
+        return false;
+    }
+
+    Entity::Team Entity::getTeam() {
+        return team;
+    }
+
+    float Entity::getDamageModifier() {
+        return damageModifier;
+    }
+
+    void Entity::decreaseHealth(int amount) {
+        if (invulnerable) {
+            amount = 0;
+        }
+
+        currentHealth -= amount;
+        if (currentHealth <= 0) {
+            currentHealth = 0;
+            die();
+        }
+    }
+
+    void Entity::setFullHealth(int fullHealth) {
+        this->fullHealth = fullHealth;
+        if (currentHealth > fullHealth) {
+            currentHealth = fullHealth;
+        }
     }
 
 } // battlefrogs

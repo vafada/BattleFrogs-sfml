@@ -12,7 +12,15 @@ namespace battlefrogs {
 
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, width, height));
+
+        position.left = x;
+        position.top = y;
+        position.width = width;
+        position.height = height;
+
         sprite.setPosition(x, y);
+
+        setFullHealth(1);
     }
 
     void Door::update(World *world, sf::Int32 elapsed) {

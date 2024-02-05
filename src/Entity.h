@@ -8,10 +8,16 @@ namespace battlefrogs {
     class World;
 
     class Entity {
+    private:
+        bool invulnerable = false;
     public:
         enum FACING {
             FACING_LEFT,
             FACING_RIGHT,
+        };
+
+        enum Team {
+            THE_FRENCH, THE_FROG_PIRATES, SYSTEM
         };
 
         Entity();
@@ -26,9 +32,21 @@ namespace battlefrogs {
 
         sf::Rect<float> getPosition();
 
+        bool ignoreCollision();
+
+        Team getTeam();
+
+        float getDamageModifier();
+
+        void decreaseHealth(int amount);
+
+        void setFullHealth(int fullHealth);
 
     protected:
+        float damageModifier = 1;
         sf::Int32 currentFrameTime = 0;
+        int fullHealth = 100;
+        int currentHealth = fullHealth;
 
         sf::Vector2f startingPoint;
         sf::Vector2f velocity;
@@ -37,6 +55,7 @@ namespace battlefrogs {
         float gravity = 0.75f;
         float jumpSpeed = 30.0f * gravity;
 
+        Team team;
         FACING facing = FACING_LEFT;
         bool isJumping = false;
 

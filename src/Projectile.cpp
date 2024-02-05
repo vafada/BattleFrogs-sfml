@@ -1,11 +1,10 @@
 #include <iostream>
 #include "Projectile.h"
+#include "World.h"
 
 namespace battlefrogs {
     Projectile::Projectile(Entity *origin, int width, int height, float range, int damage) {
         this->startingPoint = this->getProjectilePoint(origin);
-
-        std::cout << "this->startingPoint.x = " << this->startingPoint.x << std::endl;
 
         position.left = this->startingPoint.x;
         position.top = this->startingPoint.y;
@@ -33,6 +32,7 @@ namespace battlefrogs {
          */
     }
 
+
     void Projectile::update(World *world, sf::Int32 elapsed) {
         velocity.x += horizontalSpeed;
         Entity::move();
@@ -42,20 +42,20 @@ namespace battlefrogs {
             die();
             return;
         }
+*/
+        for (Entity *entity : world->getCollidingEntities(this)) {
+            if (entity != nullptr && entity->getTeam() != getTeam()) {
+                entity->decreaseHealth((int) (damage * getDamageModifier()));
 
-        for (Entity entity : world.getCollidingEntities(this)) {
-            if (entity.getTeam() != getTeam()) {
-                dealDamage(entity);
-
-                if (entity instanceof Enemy) {
-                    SoundManager.getInstance().playSoundEffect(frogHitFx);
-                }
+                // if (entity instanceof Enemy) {
+                    // SoundManager.getInstance().playSoundEffect(frogHitFx);
+                //}
 
                 die();
                 return;
             }
         }
-    */
+
         if ((facing == FACING_RIGHT) && (position.left >= (startingPoint.x + range))) {
             die();
         } else if ((facing == FACING_LEFT) && ((position.left + position.width) <= (startingPoint.x - range))) {

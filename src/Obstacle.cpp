@@ -3,6 +3,7 @@
 
 namespace battlefrogs {
     Obstacle::Obstacle(World *world, sf::FloatRect collisionBox) {
+        this->world = world;
         world->addObstacle(this);
         this->collisionBox = collisionBox;
     }

@@ -15,39 +15,7 @@ namespace battlefrogs {
         horizontalSpeed = facing == FACING_RIGHT ? SPEED : -SPEED;
     }
 
-    void Missile::move(World *world) {
-        Projectile::move();
-        /*velocity.x += horizontalSpeed;
-        velocity.x *= friction;
 
-        if (abs(velocity.x) < friction) {
-            velocity.x = 0;
-        }
-
-        float newX = sprite.getPosition().x + velocity.x;
-
-        bool collidedHorizontally = false;
-
-        sf::FloatRect missileBox(newX, sprite.getPosition().y, 60, 20);
-
-        if (!(world->isCollision(this, missileBox, false))) {
-            sprite.setPosition(newX, sprite.getPosition().y);
-        } else {
-            velocity.x = 0;
-            collidedHorizontally = true;
-        }
-
-        updateAnimation();
-
-        if (collidedHorizontally) {
-            //onCollision();
-            world->removeEntity( this);
-        }*/
-    }
-
-    void Missile::updateAnimation() {
-
-    }
 
     void Missile::update(World *world, sf::Int32 elapsed) {
         Projectile::update(world, elapsed);

@@ -167,4 +167,17 @@ namespace battlefrogs {
 
         return nullptr;
     }
+
+    std::vector<Entity *> World::getCollidingEntities(Entity *entity) {
+        std::vector<Entity *> collisions(entities.size());
+        for (Entity *otherEntity: entities) {
+            if (otherEntity != entity && !otherEntity->ignoreCollision()) {
+                if (entity->getPosition().intersects(otherEntity->getPosition())) {
+                    collisions.push_back(otherEntity);
+                }
+            }
+        }
+
+        return collisions;
+    }
 }
