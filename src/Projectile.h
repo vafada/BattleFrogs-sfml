@@ -14,6 +14,8 @@ namespace battlefrogs {
     public:
         Projectile(Entity *origin, int width, int height, float range, int damage);
         void update(World *world, sf::Int32 elapsed);
+        void onCollision(bool collidedHorizontally, bool collidedVertically);
+        void onObstacleCollision(Obstacle *obstacle);
     };
 
 } // battlefrogs

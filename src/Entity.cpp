@@ -41,6 +41,7 @@ namespace battlefrogs {
             if (!world->isCollision(this, getCollisionHitbox(newRect), false)) {
                 position.left = newX;
             } else {
+                std::cout << "collision = " << newX << std::endl;
                 velocity.x = 0;
                 collidedHorizontally = true;
             }
@@ -88,9 +89,11 @@ namespace battlefrogs {
         } else if (velocity.x < 0) {
             facing = FACING_LEFT;
         }
-/*
-        if (collidedHorizontally || collidedVertically) onCollision(collidedHorizontally, collidedVertically);
-         */
+
+        if (collidedHorizontally || collidedVertically) {
+            onCollision(collidedHorizontally, collidedVertically);
+        }
+
     }
 
     sf::FloatRect Entity::getCollisionHitbox(sf::FloatRect position) {
@@ -138,6 +141,14 @@ namespace battlefrogs {
         if (currentHealth > fullHealth) {
             currentHealth = fullHealth;
         }
+    }
+
+    void Entity::onCollision(bool collidedHorizontally, bool collidedVertically) {
+
+    }
+
+    void Entity::onObstacleCollision(Obstacle *obstacle) {
+
     }
 
 } // battlefrogs

@@ -15,8 +15,6 @@ namespace battlefrogs {
         position.left = battlefrogs::Player::STARTING_X;
         position.top = 672 - HEIGHT;
 
-        std::cout << "position.left...1111 = " << position.left << std::endl;
-
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
 

@@ -5,6 +5,7 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 
 namespace battlefrogs {
+    class Obstacle;
     class World;
 
     class Entity {
@@ -42,6 +43,8 @@ namespace battlefrogs {
 
         void setFullHealth(int fullHealth);
 
+        virtual void onObstacleCollision(Obstacle *obstacle);
+
     protected:
         float damageModifier = 1;
         sf::Int32 currentFrameTime = 0;
@@ -56,7 +59,7 @@ namespace battlefrogs {
         float jumpSpeed = 30.0f * gravity;
 
         Team team;
-        FACING facing = FACING_LEFT;
+        FACING facing = FACING_RIGHT;
         bool isJumping = false;
 
         sf::Rect<float> position;
@@ -68,6 +71,7 @@ namespace battlefrogs {
         sf::FloatRect getCollisionHitbox(sf::Rect<float> position);
 
         virtual void die();
+        virtual void onCollision(bool collidedHorizontally, bool collidedVertically);
 
     };
 

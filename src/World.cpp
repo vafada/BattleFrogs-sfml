@@ -26,15 +26,18 @@ namespace battlefrogs {
         loadCollisions();
 
         // add doors
-        addEntity(
+        /*addEntity(
                 new Door(this, "graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720,
-                         sf::FloatRect(6130, 400, 120, 320)));
+                         sf::FloatRect(6130, 400, 120, 320)));*/
+
         addEntity(new Door(this, "graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720,
                            sf::FloatRect(11375, 400, 120, 320)));
+
+        /*
         addEntity(
                 new Door(this, "graphics/Reactor_door_Intact.png", 2135, 0, 502, 720,
                          sf::FloatRect(2135, 400, 120, 320)));
-
+*/
 
         addForegroundObjects();
     }
@@ -91,6 +94,7 @@ namespace battlefrogs {
 
         for (const auto &obstacle: obstacles) {
             if (entityHitbox.intersects(obstacle->getCollisionHitbox())) {
+                entity->onObstacleCollision(obstacle);
                 return true;
             }
         }

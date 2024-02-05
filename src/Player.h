@@ -40,7 +40,7 @@ namespace battlefrogs {
                 7, // attack
         };
 
-        static const int STARTING_X = 6470;
+        static const int STARTING_X = 10870;
 
         static const int HEIGHT = 195;
         static const int WIDTH = 152;

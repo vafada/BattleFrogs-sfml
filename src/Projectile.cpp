@@ -62,4 +62,12 @@ namespace battlefrogs {
             die();
         }
     }
+
+    void Projectile::onCollision(bool collidedHorizontally, bool collidedVertically) {
+        die();
+    }
+
+    void Projectile::onObstacleCollision(Obstacle *obstacle) {
+        obstacle->decreaseHealth((int) (damage * getDamageModifier()));
+    }
 } // battlefrogs
