@@ -48,8 +48,6 @@ namespace battlefrogs {
 
         bool isCollision(Entity *entity, sf::FloatRect entityHitbox, bool forGravity);
 
-        void addForegroundObjects();
-
         void update(BattleFrogs *battleFrogs, sf::Int32 duration);
 
         void removeEntity(Entity *entity);
@@ -63,6 +61,9 @@ namespace battlefrogs {
         Player* getPlayer();
 
         std::vector<Entity *> getCollidingEntities(Entity *entity);
+
+        void removeForegroundObject(ForegroundObject *foregroundObject);
+        void addForegroundObject(ForegroundObject *foregroundObject);
     };
 
 }

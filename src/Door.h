@@ -9,6 +9,8 @@
 namespace battlefrogs {
 
     class Door: public Obstacle {
+    protected:
+        virtual void onDestroyed();
     private:
         sf::Texture texture;
         sf::Sprite sprite;
@@ -22,6 +24,8 @@ namespace battlefrogs {
         bool intersects(sf::FloatRect anotherBox);
 
         sf::FloatRect getCollisionBox();
+
+        void die();
     };
 
 } // battlefrogs

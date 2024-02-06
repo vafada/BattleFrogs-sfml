@@ -9,6 +9,7 @@ namespace battlefrogs {
         collisions.reserve(50);
         entities.reserve(100);
         obstacles.reserve(10);
+        foregroundObjects.reserve(10);
         if (!starBackground.loadFromFile("graphics/starbackground.png")) {
             std::cerr << "Error loading: graphics/starbackground.png" << std::endl;
         }
@@ -25,21 +26,35 @@ namespace battlefrogs {
 
         loadCollisions();
 
+        static ForegroundObject* intactBakeryDoorForeground = new ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720);
+
         // add doors
-        /*addEntity(
+        addEntity(
                 new Door(this, "graphics/IntoRift_door_Intact.png", 6030, 0, 313, 720,
-                         sf::FloatRect(6130, 400, 120, 320)));*/
+                         sf::FloatRect(6130, 400, 120, 320)));
 
-        addEntity(new Door(this, "graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720,
-                           sf::FloatRect(11375, 400, 120, 320)));
 
-        /*
+        class BakeryWallDoor : public Door {
+        public:
+            BakeryWallDoor(World *world): Door(world, "graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720, sf::FloatRect(11375, 400, 120, 320)) {}
+        protected:
+            void onDestroyed() {
+                std::cout << "BakeryWallDoor ondestoryed" << std::endl;
+                world->removeForegroundObject(intactBakeryDoorForeground);
+                world->addForegroundObject(new ForegroundObject("graphics/BakeryWall_door_Broken.png", 11375, 0, 306, 720));
+            }
+        };
+
+        addEntity(new BakeryWallDoor(this));
+
+
         addEntity(
                 new Door(this, "graphics/Reactor_door_Intact.png", 2135, 0, 502, 720,
                          sf::FloatRect(2135, 400, 120, 320)));
-*/
 
-        addForegroundObjects();
+
+        foregroundObjects.push_back(new ForegroundObject("graphics/LeaveCryo_Door_Broken.png", 8040, 0, 211, 720));
+        foregroundObjects.push_back(intactBakeryDoorForeground);
     }
 
     void World::render(sf::RenderWindow &renderWindow, sf::View &camera, sf::Int32 elapsed) {
@@ -135,11 +150,6 @@ namespace battlefrogs {
         }
     }
 
-    void World::addForegroundObjects() {
-        foregroundObjects.push_back(new ForegroundObject("graphics/LeaveCryo_Door_Broken.png", 8040, 0, 211, 720));
-        foregroundObjects.push_back(new ForegroundObject("graphics/BakeryWall_door_Intact.png", 11375, 0, 306, 720));
-    }
-
     void World::update(BattleFrogs *battleFrogs, sf::Int32 duration) {
         for (Entity *entity: entities) {
             entity->update(this, duration);
@@ -183,5 +193,13 @@ namespace battlefrogs {
         }
 
         return collisions;
+    }
+
+    void World::removeForegroundObject(ForegroundObject *foregroundObject) {
+        foregroundObjects.erase(std::remove(foregroundObjects.begin(), foregroundObjects.end(), foregroundObject), foregroundObjects.end());
+    }
+
+    void World::addForegroundObject(ForegroundObject *foregroundObject) {
+        foregroundObjects.push_back(foregroundObject);
     }
 }

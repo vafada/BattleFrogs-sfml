@@ -63,4 +63,13 @@ namespace battlefrogs {
         return sf::FloatRect(collisionBox);
     }
 
+    void Door::die() {
+        Obstacle::die();
+        onDestroyed();
+    }
+
+    void Door::onDestroyed() {
+
+    }
+
 } // battlefrogs
